@@ -18,6 +18,21 @@
       <input type="number" placeholder="Итоговая цена..." name="end_price" id="end_price">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
   </form>
-
+<br>
+<table border="2">
+    <caption>Таблица заказов</caption>
+    <tr>
+        <th>Id заказа &nbsp;</th>
+        <th>Id работника &nbsp;</th>
+        <th>Id рецепта &nbsp;</th>
+        <th>Дата принятия &nbsp;</th>
+        <th>Дата сдачи &nbsp;</th>
+        <th>Статус &nbsp;</th>
+        <th>Итоговая цена &nbsp;</th>
+    </tr>
+    {% for el in order %}
+            <tr><td>{{ el.id_order }} &nbsp; </td><td>{{ el.id_employee.id_employee }} &nbsp; </td><td>{{ el.id_prescription.id_prescribtion  }} &nbsp; </td><td>{{ el.date_acceptance }} &nbsp; </td><td>{{ el.date_assignment }} &nbsp; </td><td>{{ el.id_status.meaning_status }} &nbsp; </td><td>{{ el.end_price }}</td></tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

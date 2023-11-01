@@ -12,13 +12,13 @@ urlpatterns = [
     path('add_accessories', views.add_accessories, name='add_accessories'),
     path('add_item_order', views.add_item_order, name='add_item_order'),
 
-    path('create_customer', views.create_customer, name='create_customer'),
-    path('create_shop_employee', views.create_shop_employee, name='create_shop_employee'),
-    path('create_eye_doctor', views.create_eye_doctor, name='create_eye_doctor'),
-    path('create_prescription', views.create_prescription, name='create_prescription'),
-    path('create_order', views.create_order, name='create_order'),
+    path('customer', views.customer, name='customer'),
+    path('shop_employee', views.shop_employee, name='shop_employee'),
+    path('eye_doctor', views.eye_doctor, name='eye_doctor'),
+    path('prescription', views.prescription, name='prescription'),
+    path('order', views.order, name='order'),
 
-    path('viewing_customers', views.viewing_customers, name='viewing_customers'),
+    path('delete_prescription/<int:my_id>/', views.delete_prescription, name='delete_prescription'),
 
     path('update_catalog', views.update_catalog, name='update_catalog'),
 

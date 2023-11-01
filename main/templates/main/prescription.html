@@ -1,0 +1,48 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <form method="post">
+      <h1>Добавить рецепт</h1>
+      {% csrf_token %}
+      <br/>
+      <input type="number" placeholder="Id врача..." name="id_employee" id="id_employee">
+      <input type="number" placeholder="Id клиента..." name="id_customer" id="id_customer">
+      <input type="number" placeholder="Левый глаз..." name="right_diopter" id="right_diopter">
+      <input type="number" placeholder="Правый глаз..." name="left_diopter" id="left_diopter">
+      <input type="number" placeholder="Дистанция..." name="distance" id="distance">
+      <input type="date" placeholder="Дата..." name="date" id="date">
+      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+  </form>
+<br>
+<table border="2">
+    <caption>Таблица рецептов</caption>
+    <tr>
+
+        <th>Id рецепта &nbsp;</th>
+        <th>Id работника &nbsp;</th>
+        <th>Id покупателя &nbsp;</th>
+        <th>Левый глаз &nbsp;</th>
+        <th>Правый глаз &nbsp;</th>
+        <th>Дистанция &nbsp;</th>
+        <th>Дата &nbsp;</th>
+        <th>  &nbsp;</th>
+    </tr>
+    {% for el in prescription %}
+    <tr><td>{{ el.id_prescribtion }} &nbsp;
+    </td><td>{{ el.id_employee.id_employee}}&nbsp;
+    </td><td>{{ el.id_customer.id_customer }} &nbsp;
+    </td><td>{{ el.right_diopter }} &nbsp;
+    </td><td>{{ el.left_diopter }} &nbsp;
+    </td><td>{{ el.distance }} &nbsp;
+    </td><td>{{ el.date }} &nbsp;</td><td>
+    <button onclick="document.location = '{% url 'delete_prescription' el.id_prescribtion %}';">Удалить</button>
+    </tr></td>
+    {% endfor %}
+</table>
+
+{% endblock %}

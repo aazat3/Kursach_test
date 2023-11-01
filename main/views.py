@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder
 # Create your views here.
@@ -60,8 +60,8 @@ def overdue_order(request):
     return render(request, 'main/overdue_order.html',{'order': order})
 
 
-def create_customer(request):
-    customers = Customer.objects.all()
+def customer(request):
+    customer1 = Customer.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
@@ -71,11 +71,11 @@ def create_customer(request):
         with connection.cursor() as cursor:
             cursor.execute("exec [create_customer] %s, %s, %s, %s",
                            [name, surname, phone_number, email])
-    return render(request, 'main/create_customer.html',{'customers': customers})
+    return render(request, 'main/customer.html',{'customers': customer1})
 
 
-def create_shop_employee(request):
-    shop_employee = ShopEmployee.objects.all()
+def shop_employee(request):
+    shop_employee1 = ShopEmployee.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
@@ -87,11 +87,11 @@ def create_shop_employee(request):
         item = ShopEmployee(name=name, surname=surname, patronymic=patronymic, post=post,
                             phone_number=phone_number, passport_details=passport_details, adress=adress)
         item.save()
-    return render(request, 'main/create_shop_employee.html', { 'shop_employee': shop_employee})
+    return render(request, 'main/shop_employee.html', { 'shop_employee': shop_employee1 })
 
 
-def create_eye_doctor(request):
-    eye_doctor = EyeDoctor.objects.all()
+def eye_doctor(request):
+    eye_doctor1 = EyeDoctor.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
@@ -103,10 +103,11 @@ def create_eye_doctor(request):
         item = EyeDoctor(name=name, surname=surname, patronymic=patronymic, post=post,
                          phone_number=phone_number, passport_details=passport_details, adress=adress)
         item.save()
-    return render(request, 'main/create_eye_doctor.html',{'eye_doctor': eye_doctor})
+    return render(request, 'main/eye_doctor.html',{'eye_doctor': eye_doctor1})
 
 
-def create_order(request):
+def order(request):
+    order1 = Orderr.objects.all()
     if request.method == "POST":
         id_employee = request.POST.get("id_employee")
         id_prescription = request.POST.get("id_prescription")
@@ -117,7 +118,7 @@ def create_order(request):
         with connection.cursor() as cursor:
             cursor.execute("exec [create_order] %s, %s, %s, %s, %s, %s",
                            [id_employee, id_prescription, date_acceptance, date_assignment, id_status, end_price])
-    return render(request, 'main/create_order.html')
+    return render(request, 'main/order.html',{'order': order1})
 
 
 def add_item_order(request):
@@ -130,7 +131,8 @@ def add_item_order(request):
     return render(request, 'main/add_item_order.html')
 
 
-def create_prescription(request):
+def prescription(request):
+    prescription1 = Prescription.objects.all()
     if request.method == "POST":
         id_employee = request.POST.get("id_employee")
         id_customer = request.POST.get("id_customer")
@@ -141,12 +143,16 @@ def create_prescription(request):
         with connection.cursor() as cursor:
             cursor.execute("exec [create_prescription] %s, %s, %s, %s, %s, %s",
                            [id_employee,id_customer,right_diopter,left_diopter,distance,date])
-    return render(request, 'main/create_prescription.html')
+    return render(request, 'main/prescription.html',{'prescription': prescription1})
 
 
-def viewing_customers(request):
-    customers = Customer.objects.all()
-    return render(request, 'main/viewing_customers.html', {'customers': customers})
+def delete_prescription(request, my_id):
+    item = Prescription.object.get(id_prescribtion=my_id)
+    if request.method == "POST":
+        item.delete()
+        return redirect
+    return render(request, 'main/delete_prescription.html', {"item": item})
+
 
 def update_catalog(request):
     if request.method == "POST":
@@ -157,3 +163,4 @@ def update_catalog(request):
         item = Rim(name_rim=name, type=type, manufact=manufact, price=price)
         item.save()
     return render(request, 'main/update_catalog.html')
+

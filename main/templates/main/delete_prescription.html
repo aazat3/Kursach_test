@@ -1,0 +1,15 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+{% csrf_token %}
+
+<form method="post">
+    <button type="submit" class="button" title="Выполнить выбранное действие" name="index" value="delete">Удалить</button>
+</form>
+
+{% endblock %}
