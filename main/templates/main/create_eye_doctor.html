@@ -6,7 +6,7 @@
 
 {% block content %}
 
-  <form method="post">
+<form method="post">
       <h1>Добавить врача</h1>
       {% csrf_token %}
       <br/>
@@ -18,7 +18,23 @@
       <input type="text" placeholder="Фамилия..." name="passport_details" id="passport_details">
       <input type="text" placeholder="Телефон..." name="adress" id="adress">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
-
+</form>
+<br>
+<table border="2">
+    <caption>Таблица докторов</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Имя &nbsp;</th>
+        <th>Фамилия &nbsp;</th>
+        <th>Отчество &nbsp;</th>
+        <th>Пост &nbsp;</th>
+        <th>Телефон &nbsp;</th>
+        <th>Пасспортные данные &nbsp;</th>
+        <th>Адрес &nbsp;</th>
+    </tr>
+    {% for el in eye_doctor %}
+            <tr><td>{{ el.id_employee }} &nbsp; </td><td>{{ el.name }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.patronymic }} &nbsp; </td><td>{{ el.post }} &nbsp; </td><td>{{ el.phone_number }} &nbsp; </td><td>{{ el.passport_details }} &nbsp; </td><td>{{ el.adress }}</td></tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

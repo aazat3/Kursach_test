@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block content %}
-
-  <form method="post">
+<form method="post">
       <h1>Добавить клиента</h1>
       {% csrf_token %}
       <br/>
@@ -15,7 +14,19 @@
       <input type="text" placeholder="Телефон..." name="phone_number" id="phone_number">
       <input type="text" placeholder="Электронная почта..." name="email" id="email">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
-
-
+</form>
+<br>
+<table border="1">
+    <caption>Таблица клиентов</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Имя &nbsp;</th>
+        <th>Фамилия &nbsp;</th>
+        <th>Телефон &nbsp;</th>
+        <th>Элетронная почта &nbsp;</th>
+    </tr>
+    {% for el in customers %}
+            <tr><td>{{ el.id_customer }} &nbsp; </td><td>{{ el.name }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.phone_number }} &nbsp; </td><td>{{ el.email }}</td></tr>
+    {% endfor %}
+</table>
 {% endblock %}

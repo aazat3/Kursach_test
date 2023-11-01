@@ -61,6 +61,7 @@ def overdue_order(request):
 
 
 def create_customer(request):
+    customers = Customer.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
@@ -70,10 +71,11 @@ def create_customer(request):
         with connection.cursor() as cursor:
             cursor.execute("exec [create_customer] %s, %s, %s, %s",
                            [name, surname, phone_number, email])
-    return render(request, 'main/create_customer.html')
+    return render(request, 'main/create_customer.html',{'customers': customers})
 
 
 def create_shop_employee(request):
+    shop_employee = ShopEmployee.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
@@ -85,10 +87,11 @@ def create_shop_employee(request):
         item = ShopEmployee(name=name, surname=surname, patronymic=patronymic, post=post,
                             phone_number=phone_number, passport_details=passport_details, adress=adress)
         item.save()
-    return render(request, 'main/create_shop_employee.html')
+    return render(request, 'main/create_shop_employee.html', { 'shop_employee': shop_employee})
 
 
 def create_eye_doctor(request):
+    eye_doctor = EyeDoctor.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
@@ -100,7 +103,7 @@ def create_eye_doctor(request):
         item = EyeDoctor(name=name, surname=surname, patronymic=patronymic, post=post,
                          phone_number=phone_number, passport_details=passport_details, adress=adress)
         item.save()
-    return render(request, 'main/create_eye_doctor.html')
+    return render(request, 'main/create_eye_doctor.html',{'eye_doctor': eye_doctor})
 
 
 def create_order(request):
