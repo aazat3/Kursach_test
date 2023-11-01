@@ -1,0 +1,18 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Главная страница</h1>
+    {% for el in rim %}
+            id-{{ el.id_rim }}   цвет-{{ el.id_color.name_color }}   производитель-{{ el.manufact }}   цена-{{ el.price }} <br/>
+    {% endfor %}
+    {% for el in lenses %}
+            <h3>{{ el.id_lenses }}</h3>
+    {% endfor %}f
+    {% for el in accessories %}
+            <h3>{{ el.id_accessories }}</h3>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+Про нас
+{% endblock %}
+
+{% block content %}
+    {% for el in order %}
+            id_order:{{ el.id_order }}   id_employee:{{ el.id_employee.surname }}  id_employee:{{ el.id_employee.name }}  id_status:{{ el.id_status.meaning_status }}   end_price:{{ el.end_price }}  date_acceptance:{{ el.date_acceptance }}<br/>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <form method="post">
+      <h1>Добавить товары в заказ</h1>
+      {% csrf_token %}
+      <br/>
+      <input type="number" placeholder="Id товара..." name="id_catalog" id="id_catalog">
+      <input type="number" placeholder="Id заказа..." name="id_order" id="id_order">
+      <input type="number" placeholder="Количество..." name="quantity" id="quantity">
+      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+  </form>
+
+
+{% endblock %}

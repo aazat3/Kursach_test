@@ -1,0 +1,23 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <form method="post">
+      <h1>Добавить заказ</h1>
+      {% csrf_token %}
+      <br/>
+      <input type="number" placeholder="Id врача..." name="id_employee" id="id_employee">
+      <input type="number" placeholder="Id рецепта..." name="id_prescription" id="id_prescription">
+      <input type="date" placeholder="Дата принятия..." name="date_acceptance" id="date_acceptance">
+      <input type="date" placeholder="Дата сдачи..." name="date_assignment" id="date_assignment">
+      <input type="number" placeholder="Статус..." name="id_status" id="id_status">
+      <input type="number" placeholder="Итоговая цена..." name="end_price" id="end_price">
+      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+  </form>
+
+
+{% endblock %}

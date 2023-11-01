@@ -1,0 +1,24 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <form method="post">
+      <h1>Добавить сотрудника магазина</h1>
+      {% csrf_token %}
+      <br/>
+      <input type="text" placeholder="Имя..." name="name" id="name">
+      <input type="text" placeholder="Фамилия..." name="surname" id="surname">
+      <input type="text" placeholder="Телефон..." name="patronymic" id="patronymic">
+      <input type="text" placeholder="Электронная почта..." name="post" id="post">
+      <input type="text" placeholder="Имя..." name="phone_number" id="phone_number">
+      <input type="text" placeholder="Фамилия..." name="passport_details" id="passport_details">
+      <input type="text" placeholder="Телефон..." name="adress" id="adress">
+      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+  </form>
+
+
+{% endblock %}

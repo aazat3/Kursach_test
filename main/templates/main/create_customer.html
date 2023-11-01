@@ -1,0 +1,21 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <form method="post">
+      <h1>Добавить клиента</h1>
+      {% csrf_token %}
+      <br/>
+      <input type="text" placeholder="Имя..." name="name" id="name">
+      <input type="text" placeholder="Фамилия..." name="surname" id="surname">
+      <input type="text" placeholder="Телефон..." name="phone_number" id="phone_number">
+      <input type="text" placeholder="Электронная почта..." name="email" id="email">
+      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+  </form>
+
+
+{% endblock %}
