@@ -78,6 +78,22 @@ class Prescription(models.Model):
         db_table = 'prescription'
 
 
+class PrescriptionWithoutId(models.Model):
+    id_prescribtion = models.AutoField(primary_key=True)
+    employee_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    employee_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    customer_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    customer_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    right_diopter = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    left_diopter = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    distance = models.SmallIntegerField()
+    date = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = 'prescription_without_id'
+
+
 class Rim(models.Model):
     id_rim = models.AutoField(primary_key=True)
     id_color = models.ForeignKey(Color, models.DO_NOTHING, db_column='id_color', blank=True, null=True)
@@ -140,6 +156,21 @@ class Orderr(models.Model):
         db_table = 'orderr'
 
 
+class OrderrWithoutId(models.Model):
+    id_order = models.AutoField(primary_key=True)
+    employee_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    employee_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    customer_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    customer_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    date_acceptance = models.DateTimeField()
+    date_assignment = models.DateTimeField(blank=True, null=True)
+    id_status = models.ForeignKey(Status, models.DO_NOTHING, db_column='id_status', blank=True, null=True)
+    end_price = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = 'Orderr_without_id'
+
 class OrderList(models.Model):
     id_order_list = models.AutoField(primary_key=True)
     id_catalog = models.ForeignKey(Catalog, models.DO_NOTHING, db_column='id_catalog', blank=True, null=True)
@@ -149,6 +180,20 @@ class OrderList(models.Model):
     class Meta:
         managed = False
         db_table = 'order_list'
+
+
+class OrderListByIdOrder(models.Model):
+    id_order_list = models.AutoField(primary_key=True)
+    id_order = models.ForeignKey(Orderr, models.DO_NOTHING, db_column='id_order', blank=True, null=True)
+    name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    id_catalog = models.ForeignKey(Catalog, models.DO_NOTHING, db_column='id_catalog', blank=True, null=True)
+    product_name = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    product_manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    quantity = models.SmallIntegerField(blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'order_list_by_id_order'
 
 
 class OverdueOrder(models.Model):

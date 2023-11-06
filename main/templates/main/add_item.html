@@ -35,6 +35,52 @@
         <button onclick="document.location = '{% url 'add_lenses' %}';">Линзы</button>
         <button onclick="document.location = '{% url 'add_accessories' %}';">Аксессуары</button>
         {% block content %}{% endblock %}
+
+<br>
+    <br>
+<table border="2">
+    <caption>Таблица оправ</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Производитель &nbsp;</th>
+        <th>Цвет &nbsp;</th>
+        <th>Цена &nbsp;</th>
+    </tr>
+    {% for el in rim %}
+            <tr><td>{{ el.id_rim }} &nbsp; </td><td>{{ el.name_rim }} &nbsp; </td><td>{{ el.manufact }} &nbsp; </td><td>{{ el.id_color.name_color}} &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+    {% endfor %}
+</table>
+<br>
+<table border="2">
+    <caption>Таблица линз</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Диоптрии &nbsp;</th>
+        <th>Производитель &nbsp;</th>
+        <th>Цвет &nbsp;</th>
+        <th>Цена &nbsp;</th>
+    </tr>
+    {% for el in lenses %}
+            <tr><td>{{ el.id_lenses }} &nbsp; </td><td>{{ el.name_lenses }} &nbsp; </td><td>{{ el.diopter }} &nbsp; </td><td>{{ el.manufact }} &nbsp; </td><td>{{ el.id_color.name_color}} &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+    {% endfor %}
+</table>
+<br>
+<table border="2">
+    <caption>Таблица сотрудников магазина</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Тип &nbsp;</th>
+        <th>Производитель &nbsp;</th>
+        <th>Цена &nbsp;</th>
+    </tr>
+    {% for el in accessories %}
+            <tr><td>{{ el.id_accessories }} &nbsp; </td><td>{{ el.name_accessories }} &nbsp; </td><td>{{ el.type }} &nbsp; </td><td>{{ el.manufact }}  &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+    {% endfor %}
+
+</table>
     </div>
 </body>
 </html>

@@ -24,8 +24,10 @@
     <tr>
 
         <th>Id рецепта &nbsp;</th>
-        <th>Id работника &nbsp;</th>
-        <th>Id покупателя &nbsp;</th>
+        <th>Имя работника &nbsp;</th>
+        <th>Фамилия работника &nbsp;</th>
+        <th>Имя клиента &nbsp;</th>
+        <th>Фамилия клиента &nbsp;</th>
         <th>Левый глаз &nbsp;</th>
         <th>Правый глаз &nbsp;</th>
         <th>Дистанция &nbsp;</th>
@@ -34,8 +36,10 @@
     </tr>
     {% for el in prescription %}
     <tr><td>{{ el.id_prescribtion }} &nbsp;
-    </td><td>{{ el.id_employee.id_employee}}&nbsp;
-    </td><td>{{ el.id_customer.id_customer }} &nbsp;
+    </td><td>{{ el.employee_name }} &nbsp;
+    </td><td>{{ el.employee_surname }} &nbsp;
+    </td><td>{{ el.customer_name }} &nbsp;
+    z</td><td>{{ el.customer_surname }} &nbsp;
     </td><td>{{ el.right_diopter }} &nbsp;
     </td><td>{{ el.left_diopter }} &nbsp;
     </td><td>{{ el.distance }} &nbsp;

@@ -23,15 +23,27 @@
     <caption>Таблица заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
-        <th>Id работника &nbsp;</th>
-        <th>Id рецепта &nbsp;</th>
+        <th>Имя работника &nbsp;</th>
+        <th>Фамилия работника &nbsp;</th>
+        <th>Имя клиента &nbsp;</th>
+        <th>Фамилия клиента &nbsp;</th>
         <th>Дата принятия &nbsp;</th>
         <th>Дата сдачи &nbsp;</th>
         <th>Статус &nbsp;</th>
         <th>Итоговая цена &nbsp;</th>
     </tr>
     {% for el in order %}
-            <tr><td>{{ el.id_order }} &nbsp; </td><td>{{ el.id_employee.id_employee }} &nbsp; </td><td>{{ el.id_prescription.id_prescribtion  }} &nbsp; </td><td>{{ el.date_acceptance }} &nbsp; </td><td>{{ el.date_assignment }} &nbsp; </td><td>{{ el.id_status.meaning_status }} &nbsp; </td><td>{{ el.end_price }}</td></tr>
+            <tr><td>{{ el.id_order }} &nbsp;
+            </td><td>{{ el.employee_name }} &nbsp;
+            </td><td>{{ el.employee_surname }} &nbsp;
+            </td><td>{{ el.customer_name }} &nbsp;
+            </td><td>{{ el.customer_surname }} &nbsp;
+            </td><td>{{ el.date_acceptance }} &nbsp;
+            </td><td>{{ el.date_assignment }} &nbsp;
+            </td><td>{{ el.id_status.meaning_status }} &nbsp;
+            </td><td>{{ el.end_price }}</td><td>
+            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
+            </td></tr>
     {% endfor %}
 </table>
 

@@ -6,12 +6,12 @@
 
 {% block content %}
 
+
   <form method="post">
       <h1>Добавить товары в заказ</h1>
       {% csrf_token %}
       <br/>
       <input type="number" placeholder="Id товара..." name="id_catalog" id="id_catalog">
-      <input type="number" placeholder="Id заказа..." name="id_order" id="id_order">
       <input type="number" placeholder="Количество..." name="quantity" id="quantity">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
   </form>
@@ -19,13 +19,17 @@
 <table border="2">
     <caption>Таблица товаров заказов</caption>
     <tr>
-        <th>Id &nbsp;</th>
-        <th>Id товара &nbsp;</th>
+        <th>Id товара заказа &nbsp;</th>
         <th>Id заказа &nbsp;</th>
+        <th>Имя &nbsp;</th>
+        <th>Фамилия &nbsp;</th>
+        <th>Id товара &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Произваодитель &nbsp;</th>
         <th>Количество &nbsp;</th>
     </tr>
-    {% for el in item_order %}
-            <tr><td>{{ el.id_order_list }} &nbsp; </td><td>{{ el.id_catalog.id_catalog }} &nbsp; </td><td>{{ el.id_order.id_order }} &nbsp; </td><td>{{ el.quantity}}  </td></tr>
+    {% for el in item %}
+            <tr><td>{{ el.id_order_list }} &nbsp; </td><td>{{ el.id_order.id_order }} &nbsp; </td><td>{{ el.name  }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.id_catalog.id_catalog }} &nbsp; </td><td>{{ el.product_name }} &nbsp; </td><td>{{ el.product_manufact }}</td><td>{{ el.quantity}}</td></tr>
     {% endfor %}
 </table>
 

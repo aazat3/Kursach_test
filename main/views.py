@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import connection
-from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder
+from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId
 # Create your views here.
 
 
@@ -19,7 +19,10 @@ def about_us(request):
 
 
 def add_item(request):
-    return render(request, 'main/add_item.html')
+    rim = Rim.objects.all()
+    lenses = Lenses.objects.all()
+    accessories = Accessories.objects.all()
+    return render(request, 'main/add_item.html',{'rim': rim, 'lenses': lenses, 'accessories': accessories})
 
 
 def add_rim(request):
@@ -107,32 +110,44 @@ def eye_doctor(request):
 
 
 def order(request):
-    order1 = Orderr.objects.all()
-    if request.method == "POST":
-        id_employee = request.POST.get("id_employee")
-        id_prescription = request.POST.get("id_prescription")
-        date_acceptance = request.POST.get("date_acceptance")
-        date_assignment = request.POST.get("date_assignment")
-        id_status = request.POST.get("id_status")
-        end_price = request.POST.get("end_price")
-        with connection.cursor() as cursor:
-            cursor.execute("exec [create_order] %s, %s, %s, %s, %s, %s",
-                           [id_employee, id_prescription, date_acceptance, date_assignment, id_status, end_price])
+    order1 = OrderrWithoutId.objects.all()
+    # if request.method == "POST":
+    #     id_employee = request.POST.get("id_employee")
+    #     id_prescription = request.POST.get("id_prescription")
+    #     date_acceptance = request.POST.get("date_acceptance")
+    #     date_assignment = request.POST.get("date_assignment")
+    #     id_status = request.POST.get("id_status")
+    #     end_price = request.POST.get("end_price")
+    #     with connection.cursor() as cursor:
+    #         cursor.execute("exec [create_order] %s, %s, %s, %s, %s, %s",
+    #                        [id_employee, id_prescription, date_acceptance, date_assignment, id_status, end_price])
     return render(request, 'main/order.html',{'order': order1})
 
 
 def add_item_order(request):
+    item_order1 = OrderList.objects.all()
     if request.method == "POST":
         id_catalog = request.POST.get("id_catalog")
         id_order = request.POST.get("id_order")
         quantity = request.POST.get("quantity")
         item = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
         item.save()
-    return render(request, 'main/add_item_order.html')
+    return render(request, 'main/add_item_order.html',{'item_order': item_order1})
+
+
+def order_list_by_id_order(request, my_id):
+    item = OrderListByIdOrder.objects.raw("select * from dbo.[order_list_orderr_id](%s)", [my_id])
+    if request.method == "POST":
+        id_catalog = request.POST.get("id_catalog")
+        id_order = my_id
+        quantity = request.POST.get("quantity")
+        item2 = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
+        item2.save()
+    return render(request, 'main/order_list_by_id_order.html', {"item": item})
 
 
 def prescription(request):
-    prescription1 = Prescription.objects.all()
+    prescription1 = PrescriptionWithoutId.objects.all()
     if request.method == "POST":
         id_employee = request.POST.get("id_employee")
         id_customer = request.POST.get("id_customer")
@@ -147,10 +162,10 @@ def prescription(request):
 
 
 def delete_prescription(request, my_id):
-    item = Prescription.object.get(id_prescribtion=my_id)
+    item = Prescription.objects.get(id_prescribtion=my_id)
     if request.method == "POST":
         item.delete()
-        return redirect
+        return redirect("prescription")
     return render(request, 'main/delete_prescription.html', {"item": item})
 
 
