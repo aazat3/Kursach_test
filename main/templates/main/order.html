@@ -10,17 +10,74 @@
       <h1>Добавить заказ</h1>
       {% csrf_token %}
       <br/>
-      <input type="number" placeholder="Id врача..." name="id_employee" id="id_employee">
-      <input type="number" placeholder="Id рецепта..." name="id_prescription" id="id_prescription">
+      <input type="text" placeholder="Имя продавца..." name="employee_name" id="employee_name">
+      <input type="text" placeholder="Имя продавца..." name="employee_surname" id="employee_surname">
+      <input type="text" placeholder="Фамилия клиента..." name="customer_name" id="customer_name">
+      <input type="text" placeholder="Фамилия клиента..." name="customer_surname" id="customer_surname">
       <input type="date" placeholder="Дата принятия..." name="date_acceptance" id="date_acceptance">
-      <input type="date" placeholder="Дата сдачи..." name="date_assignment" id="date_assignment">
-      <input type="number" placeholder="Статус..." name="id_status" id="id_status">
-      <input type="number" placeholder="Итоговая цена..." name="end_price" id="end_price">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
   </form>
-<br>
+<br><br>
 <table border="2">
-    <caption>Таблица заказов</caption>
+    <caption>Таблица принятых заказов</caption>
+    <tr>
+        <th>Id заказа &nbsp;</th>
+        <th>Имя врача &nbsp;</th>
+        <th>Фамилия врача &nbsp;</th>
+        <th>Имя клиента &nbsp;</th>
+        <th>Фамилия клиента &nbsp;</th>
+        <th>Дата принятия &nbsp;</th>
+        <th>Статус &nbsp;</th>
+        <th>Итоговая цена &nbsp;</th>
+    </tr>
+    {% for el in order1 %}
+            <tr><td>{{ el.id_order }} &nbsp;
+            </td><td>{{ el.employee_name }} &nbsp;
+            </td><td>{{ el.employee_surname }} &nbsp;
+            </td><td>{{ el.customer_name }} &nbsp;
+            </td><td>{{ el.customer_surname }} &nbsp;
+            </td><td>{{ el.date_acceptance }} &nbsp;
+            </td><td>{{ el.id_status.meaning_status }} &nbsp;
+            </td><td>{{ el.end_price }}</td><td>
+            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
+            <button onclick="document.location = '{% url 'update_status1' el.id_order %}';">Готов</button>
+            <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
+
+            </td></tr>
+    {% endfor %}
+</table>
+<br><br>
+<table border="2">
+    <caption>Таблица готовых заказов</caption>
+    <tr>
+        <th>Id заказа &nbsp;</th>
+        <th>Имя работника &nbsp;</th>
+        <th>Фамилия работника &nbsp;</th>
+        <th>Имя клиента &nbsp;</th>
+        <th>Фамилия клиента &nbsp;</th>
+        <th>Дата принятия &nbsp;</th>
+        <th>Статус &nbsp;</th>
+        <th>Итоговая цена &nbsp;</th>
+    </tr>
+    {% for el in order2 %}
+            <tr><td>{{ el.id_order }} &nbsp;
+            </td><td>{{ el.employee_name }} &nbsp;
+            </td><td>{{ el.employee_surname }} &nbsp;
+            </td><td>{{ el.customer_name }} &nbsp;
+            </td><td>{{ el.customer_surname }} &nbsp;
+            </td><td>{{ el.date_acceptance }} &nbsp;
+            </td><td>{{ el.id_status.meaning_status }} &nbsp;
+            </td><td>{{ el.end_price }}</td><td>
+            <button onclick="document.location = '{% url 'update_status2' el.id_order %}';">Выдан</button>
+            <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
+
+
+            </td></tr>
+    {% endfor %}
+</table>
+<br><br>
+<table border="2">
+    <caption>Таблица выданных заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
         <th>Имя работника &nbsp;</th>
@@ -32,7 +89,7 @@
         <th>Статус &nbsp;</th>
         <th>Итоговая цена &nbsp;</th>
     </tr>
-    {% for el in order %}
+    {% for el in order3 %}
             <tr><td>{{ el.id_order }} &nbsp;
             </td><td>{{ el.employee_name }} &nbsp;
             </td><td>{{ el.employee_surname }} &nbsp;
@@ -42,9 +99,33 @@
             </td><td>{{ el.date_assignment }} &nbsp;
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
             </td></tr>
     {% endfor %}
 </table>
-
+<br><br>
+<table border="2">
+    <caption>Таблица отмененных заказов</caption>
+    <tr>
+        <th>Id заказа &nbsp;</th>
+        <th>Имя работника &nbsp;</th>
+        <th>Фамилия работника &nbsp;</th>
+        <th>Имя клиента &nbsp;</th>
+        <th>Фамилия клиента &nbsp;</th>
+        <th>Дата принятия &nbsp;</th>
+        <th>Статус &nbsp;</th>
+        <th>Итоговая цена &nbsp;</th>
+    </tr>
+    {% for el in order4 %}
+            <tr><td>{{ el.id_order }} &nbsp;
+            </td><td>{{ el.employee_name }} &nbsp;
+            </td><td>{{ el.employee_surname }} &nbsp;
+            </td><td>{{ el.customer_name }} &nbsp;
+            </td><td>{{ el.customer_surname }} &nbsp;
+            </td><td>{{ el.date_acceptance }} &nbsp;
+            </td><td>{{ el.id_status.meaning_status }} &nbsp;
+            </td><td>{{ el.end_price }}</td><td>
+            <button onclick="document.location = '{% url 'delete_order' el.id_order %}';">Удалить</button>
+            </td></tr>
+    {% endfor %}
+</table>
 {% endblock %}

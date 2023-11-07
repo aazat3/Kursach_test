@@ -18,6 +18,10 @@ urlpatterns = [
     path('prescription', views.prescription, name='prescription'),
     path('order', views.order, name='order'),
 
+    path('delete_order/<int:my_id>/', views.delete_order, name='delete_order'),
+    path('update_status1/<int:my_id>/', views.update_status1, name='update_status1'),
+    path('update_status2/<int:my_id>/', views.update_status2, name='update_status2'),
+    path('update_status3/<int:my_id>/', views.update_status3, name='update_status3'),
     path('order_list_by_id_order/<int:my_id>/', views.order_list_by_id_order, name='order_list_by_id_order'),
     path('delete_prescription/<int:my_id>/', views.delete_prescription, name='delete_prescription'),
 

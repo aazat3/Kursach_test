@@ -11,7 +11,8 @@
       <h1>Добавить товары в заказ</h1>
       {% csrf_token %}
       <br/>
-      <input type="number" placeholder="Id товара..." name="id_catalog" id="id_catalog">
+      <input type="text" placeholder="Название товара..." name="name_item" id="name_item">
+      <input type="text" placeholder="Производитель..." name="manufact_item" id="manufact_item">
       <input type="number" placeholder="Количество..." name="quantity" id="quantity">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
   </form>
@@ -25,7 +26,7 @@
         <th>Фамилия &nbsp;</th>
         <th>Id товара &nbsp;</th>
         <th>Название &nbsp;</th>
-        <th>Произваодитель &nbsp;</th>
+        <th>Производитель &nbsp;</th>
         <th>Количество &nbsp;</th>
     </tr>
     {% for el in item %}

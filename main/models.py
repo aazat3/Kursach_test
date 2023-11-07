@@ -3,6 +3,10 @@ from django.db import models
 # Create your models here.
 
 
+class MyId(models.Model):
+    my_id = models.IntegerField()
+
+
 class Accessories(models.Model):
     id_accessories = models.AutoField(primary_key=True)
     manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)

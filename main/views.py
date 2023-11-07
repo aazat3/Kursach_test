@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import connection
-from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId
+from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId, MyId
 # Create your views here.
 
 
@@ -26,36 +26,48 @@ def add_item(request):
 
 
 def add_rim(request):
+    rim = Rim.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
-        color = request.POST.get("color")
+        #color = request.POST.get("color")
+        color_name = request.POST.get("color_name")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.id_color(%s)", [color_name])
+            color_id = cursor.fetchone()[0]
         manufact = request.POST.get("manufact")
         price = request.POST.get("price")
-        item = Rim(name_rim=name, id_color_id=color, manufact=manufact, price=price)
+        item = Rim(name_rim=name, id_color_id=color_id, manufact=manufact, price=price)
         item.save()
-    return render(request, 'main/add_rim.html')
+    return render(request, 'main/add_rim.html', {"item": rim})
 
 
 def add_lenses(request):
+    lenses = Lenses.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
-        color = request.POST.get("color")
-        manufact = request.POST.get("manufact")
+        # color = request.POST.get("color")
+        color_name = request.POST.get("color_name")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.id_color(%s)", [color_name])
+            color_id = cursor.fetchone()[0]
+            manufact = request.POST.get("manufact")
         price = request.POST.get("price")
-        #item = NotImplementedError(name_rim=name, id_color_id=color, manufact=manufact, price=price)
-        #item.save()
-    return render(request, 'main/add_lenses.html')
+        diopter = request.POST.get("diopter")
+        item = Lenses(name_lenses=name, id_color_id=color_id, manufact=manufact, price=price, diopter=diopter)
+        item.save()
+    return render(request, 'main/add_lenses.html', {"item": lenses})
 
 
 def add_accessories(request):
+    accessories = Accessories.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         type = request.POST.get("type")
         manufact = request.POST.get("manufact")
         price = request.POST.get("price")
-        with connection.cursor() as cursor:
-            cursor.execute("UPDATE accessories SET manu ='Tomas' WHERE Univ_Id=1 ")
-    return render(request, 'main/add_accessories.html')
+        item = Accessories(name_accessories=name, type=type, manufact=manufact, price=price)
+        item.save()
+    return render(request, 'main/add_accessories.html', {"item": accessories})
 
 
 def overdue_order(request):
@@ -110,18 +122,67 @@ def eye_doctor(request):
 
 
 def order(request):
-    order1 = OrderrWithoutId.objects.all()
-    # if request.method == "POST":
-    #     id_employee = request.POST.get("id_employee")
-    #     id_prescription = request.POST.get("id_prescription")
-    #     date_acceptance = request.POST.get("date_acceptance")
-    #     date_assignment = request.POST.get("date_assignment")
-    #     id_status = request.POST.get("id_status")
-    #     end_price = request.POST.get("end_price")
-    #     with connection.cursor() as cursor:
-    #         cursor.execute("exec [create_order] %s, %s, %s, %s, %s, %s",
-    #                        [id_employee, id_prescription, date_acceptance, date_assignment, id_status, end_price])
-    return render(request, 'main/order.html',{'order': order1})
+    order1 = OrderrWithoutId.objects.filter(id_status_id=1)
+    order2 = OrderrWithoutId.objects.filter(id_status_id=2)
+    order3 = OrderrWithoutId.objects.filter(id_status_id=3)
+    order4 = OrderrWithoutId.objects.filter(id_status_id=4)
+
+    if request.method == "POST":
+        #id_employee = request.POST.get("id_employee")
+        employee_name = request.POST.get("employee_name")
+        employee_surname = request.POST.get("employee_surname")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.shop_employee_id(%s,%s)", [employee_name, employee_surname])
+            id_employee = cursor.fetchone()[0]
+        #id_prescription = request.POST.get("id_prescription")
+        customer_name = request.POST.get("customer_name")
+        customer_surname = request.POST.get("customer_surname")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.customer_prescription(%s,%s)", [customer_name, customer_surname])
+            id_prescription = cursor.fetchone()[0]
+        date_acceptance = request.POST.get("date_acceptance")
+        with connection.cursor() as cursor:
+            cursor.execute("exec [create_order] %s, %s, %s",
+                           [id_employee, id_prescription, date_acceptance])
+    return render(request, 'main/order.html',{'order1': order1,'order2': order2,'order3': order3,'order4': order4,})
+
+
+def delete_order(request, my_id):
+    item = Orderr.objects.get(id_order=my_id)
+    if request.method == "POST":
+        item.delete()
+        return redirect("order")
+    return render(request, 'main/delete_order.html', {"item": item})
+
+
+def update_status1(request, my_id):
+    item = Orderr.objects.get(id_order=my_id)
+    if request.method == "POST":
+        item.id_status_id = 2
+        item.save()
+        return redirect("order")
+    return render(request, 'main/update_status1.html', {"item": item})
+
+
+def update_status2(request, my_id):
+    item = Orderr.objects.get(id_order=my_id)
+    if request.method == "POST":
+        item.id_status_id = 3
+        item.save()
+        return redirect("order")
+    return render(request, 'main/update_status2.html', {"item": item})
+
+
+def update_status3(request, my_id):
+    item = Orderr.objects.get(id_order=my_id)
+    if request.method == "POST":
+        item.id_status_id = 4
+        #item.save()
+        with connection.cursor() as cursor:
+            cursor.execute("exec [change_status] %s, %s",
+                           [item.id_status_id, my_id])
+        return redirect("order")
+    return render(request, 'main/update_status3.html', {"item": item})
 
 
 def add_item_order(request):
@@ -132,13 +193,19 @@ def add_item_order(request):
         quantity = request.POST.get("quantity")
         item = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
         item.save()
+        return redirect("order")
     return render(request, 'main/add_item_order.html',{'item_order': item_order1})
 
 
 def order_list_by_id_order(request, my_id):
     item = OrderListByIdOrder.objects.raw("select * from dbo.[order_list_orderr_id](%s)", [my_id])
     if request.method == "POST":
-        id_catalog = request.POST.get("id_catalog")
+        #id_catalog = request.POST.get("id_catalog")
+        name_item = request.POST.get("name_item")
+        manufact_item = request.POST.get("manufact_item")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.catalog_id(%s,%s)", [name_item, manufact_item])
+            id_catalog = cursor.fetchone()[0]
         id_order = my_id
         quantity = request.POST.get("quantity")
         item2 = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
@@ -149,8 +216,19 @@ def order_list_by_id_order(request, my_id):
 def prescription(request):
     prescription1 = PrescriptionWithoutId.objects.all()
     if request.method == "POST":
-        id_employee = request.POST.get("id_employee")
-        id_customer = request.POST.get("id_customer")
+        #id_employee = request.POST.get("id_employee")
+        employee_name = request.POST.get("employee_name")
+        employee_surname = request.POST.get("employee_surname")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.eye_doctor_id(%s, %s)", [employee_name, employee_surname])
+            id_employee = cursor.fetchone()[0]
+
+        #id_customer = request.POST.get("id_customer")
+        name = request.POST.get("customer_name")
+        surname = request.POST.get("customer_surname")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.customer_id(%s,%s)", [name , surname])
+            id_customer = cursor.fetchone()[0]
         right_diopter = request.POST.get("right_diopter")
         left_diopter = request.POST.get("left_diopter")
         distance = request.POST.get("distance")

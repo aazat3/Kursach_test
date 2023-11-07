@@ -11,10 +11,23 @@
     <br/>
     <input type="text" placeholder="Название..." name="name" id="name">
     <input type="text" placeholder="Производитель..." name="manufact" id="manufact">
-    <input type="number" placeholder="Цвет..." name="color" id="color">
+    <input type="text" placeholder="Цвет..." name="color_name" id="color_name">
     <input type="number" placeholder="Цена..." name="price" id="price">
     <button type="submit" name="Add_item" value="Add_item">Добавить</button>
   </form>
 
-
+<br>
+<table border="2">
+    <caption>Таблица оправ</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Производитель &nbsp;</th>
+        <th>Цвет &nbsp;</th>
+        <th>Цена &nbsp;</th>
+    </tr>
+    {% for el in item %}
+            <tr><td>{{ el.id_rim }} &nbsp; </td><td>{{ el.name_rim }} &nbsp; </td><td>{{ el.manufact }} &nbsp; </td><td>{{ el.id_color.name_color}} &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+    {% endfor %}
+</table>
 {% endblock %}

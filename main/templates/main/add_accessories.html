@@ -15,5 +15,19 @@
     <input type="number" placeholder="Цена..." name="price" id="price">
     <button type="submit" name="Add_item" value="Add_item">Добавить</button>
     </form>
+<br>
+<table border="2">
+    <caption>Таблица аксессуаров</caption>
+    <tr>
+        <th>id &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Тип &nbsp;</th>
+        <th>Производитель &nbsp;</th>
+        <th>Цена &nbsp;</th>
+    </tr>
+    {% for el in item %}
+            <tr><td>{{ el.id_accessories }} &nbsp; </td><td>{{ el.name_accessories }} &nbsp; </td><td>{{ el.type }} &nbsp; </td><td>{{ el.manufact }}  &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+    {% endfor %}
 
+</table>
 {% endblock %}
