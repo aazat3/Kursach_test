@@ -24,9 +24,19 @@
         <th>Тип &nbsp;</th>
         <th>Производитель &nbsp;</th>
         <th>Цена &nbsp;</th>
+        <th>Количество &nbsp;</th>
     </tr>
     {% for el in item %}
-            <tr><td>{{ el.id_accessories }} &nbsp; </td><td>{{ el.name_accessories }} &nbsp; </td><td>{{ el.type }} &nbsp; </td><td>{{ el.manufact }}  &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+            <tr><td>{{ el.id_accessories }} &nbsp;
+            </td><td>{{ el.name_accessories }} &nbsp;
+            </td><td>{{ el.type }} &nbsp;
+            </td><td>{{ el.manufact }}  &nbsp;
+            </td><td>{{ el.price }}&nbsp;
+            </td><td>{{ el.quantity }} &nbsp; </td><td>
+            <button onclick="document.location = '{% url 'update_quantity_accessories' el.id_accessories %}';">Добавить количество</button></td><td>
+            <button onclick="document.location = '{% url 'delete_order' el.id_accessories %}';">Удалить</button>
+            </td></tr>
+
     {% endfor %}
 
 </table>

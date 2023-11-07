@@ -19,6 +19,19 @@ class Accessories(models.Model):
         db_table = 'accessories'
 
 
+class AccessoriesWithQuantity(models.Model):
+    id_accessories = models.AutoField(primary_key=True)
+    manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    type = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    price = models.FloatField()
+    name_accessories = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    quantity = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'accessories_quantity'
+
+
 class Color(models.Model):
     id_color = models.AutoField(primary_key=True)
     name_color = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
@@ -67,6 +80,18 @@ class Lenses(models.Model):
         managed = False
         db_table = 'lenses'
 
+class LensesWithQuantity(models.Model):
+    id_lenses = models.AutoField(primary_key=True)
+    diopter = models.DecimalField(max_digits=4, decimal_places=2)
+    id_color = models.ForeignKey(Color, models.DO_NOTHING, db_column='id_color', blank=True, null=True)
+    manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    price = models.FloatField()
+    name_lenses = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    quantity = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'lenses_quantity'
 
 class Prescription(models.Model):
     id_prescribtion = models.AutoField(primary_key=True)
@@ -109,6 +134,18 @@ class Rim(models.Model):
         managed = False
         db_table = 'rim'
 
+
+class RimWithQuantity(models.Model):
+    id_rim = models.AutoField(primary_key=True)
+    id_color = models.ForeignKey(Color, models.DO_NOTHING, db_column='id_color', blank=True, null=True)
+    manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    price = models.FloatField()
+    name_rim = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    quantity = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'rim_quantity'
 
 class ShopEmployee(models.Model):
     id_employee = models.AutoField(primary_key=True)

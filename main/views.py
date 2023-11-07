@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import connection
-from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId, MyId
+from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId, AccessoriesWithQuantity, LensesWithQuantity, RimWithQuantity
 # Create your views here.
 
 
@@ -22,11 +22,11 @@ def add_item(request):
     rim = Rim.objects.all()
     lenses = Lenses.objects.all()
     accessories = Accessories.objects.all()
-    return render(request, 'main/add_item.html',{'rim': rim, 'lenses': lenses, 'accessories': accessories})
+    return render(request, 'main/add_item.html',{'title': 'Товары','rim': rim, 'lenses': lenses, 'accessories': accessories})
 
 
 def add_rim(request):
-    rim = Rim.objects.all()
+    rim = RimWithQuantity.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         #color = request.POST.get("color")
@@ -42,7 +42,7 @@ def add_rim(request):
 
 
 def add_lenses(request):
-    lenses = Lenses.objects.all()
+    lenses = LensesWithQuantity.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         # color = request.POST.get("color")
@@ -59,7 +59,7 @@ def add_lenses(request):
 
 
 def add_accessories(request):
-    accessories = Accessories.objects.all()
+    accessories = AccessoriesWithQuantity.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         type = request.POST.get("type")
@@ -68,6 +68,39 @@ def add_accessories(request):
         item = Accessories(name_accessories=name, type=type, manufact=manufact, price=price)
         item.save()
     return render(request, 'main/add_accessories.html', {"item": accessories})
+
+
+def update_quantity_rim(request, my_id):
+    item = Catalog.objects.get(id_rim=my_id)
+    if request.method == "POST":
+        quantity1 = item.quantity
+        quantity2 = int(request.POST.get("quantity"))
+        item.quantity = quantity1 + quantity2
+        item.save()
+        return redirect("add_rim")
+    return render(request, 'main/update_quantity.html')
+
+
+def update_quantity_lenses(request, my_id):
+    item = Catalog.objects.get(id_lenses=my_id)
+    if request.method == "POST":
+        quantity1 = item.quantity
+        quantity2 = int(request.POST.get("quantity"))
+        item.quantity = quantity1 + quantity2
+        item.save()
+        return redirect("add_lenses")
+    return render(request, 'main/update_quantity.html')
+
+
+def update_quantity_accessories(request, my_id):
+    item = Catalog.objects.get(id_accessories=my_id)
+    if request.method == "POST":
+        quantity1 = item.quantity
+        quantity2 = int(request.POST.get("quantity"))
+        item.quantity = quantity1 + quantity2
+        item.save()
+        return redirect("add_accessories")
+    return render(request, 'main/update_quantity.html')
 
 
 def overdue_order(request):
@@ -152,7 +185,7 @@ def delete_order(request, my_id):
     if request.method == "POST":
         item.delete()
         return redirect("order")
-    return render(request, 'main/delete_order.html', {"item": item})
+    return render(request, 'main/delete_confirm.html', {"item": item})
 
 
 def update_status1(request, my_id):
@@ -185,16 +218,7 @@ def update_status3(request, my_id):
     return render(request, 'main/update_status3.html', {"item": item})
 
 
-def add_item_order(request):
-    item_order1 = OrderList.objects.all()
-    if request.method == "POST":
-        id_catalog = request.POST.get("id_catalog")
-        id_order = request.POST.get("id_order")
-        quantity = request.POST.get("quantity")
-        item = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
-        item.save()
-        return redirect("order")
-    return render(request, 'main/add_item_order.html',{'item_order': item_order1})
+
 
 
 def order_list_by_id_order(request, my_id):
@@ -244,16 +268,6 @@ def delete_prescription(request, my_id):
     if request.method == "POST":
         item.delete()
         return redirect("prescription")
-    return render(request, 'main/delete_prescription.html', {"item": item})
+    return render(request, 'main/delete_confirm.html', {"item": item})
 
-
-def update_catalog(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        type = request.POST.get("type")
-        manufact = request.POST.get("manufact")
-        price = request.POST.get("price")
-        item = Rim(name_rim=name, type=type, manufact=manufact, price=price)
-        item.save()
-    return render(request, 'main/update_catalog.html')
 

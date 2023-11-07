@@ -26,9 +26,19 @@
         <th>Производитель &nbsp;</th>
         <th>Цвет &nbsp;</th>
         <th>Цена &nbsp;</th>
+        <th>Количество &nbsp;</th>
     </tr>
     {% for el in item %}
-            <tr><td>{{ el.id_lenses }} &nbsp; </td><td>{{ el.name_lenses }} &nbsp; </td><td>{{ el.diopter }} &nbsp; </td><td>{{ el.manufact }} &nbsp; </td><td>{{ el.id_color.name_color}} &nbsp; </td><td>{{ el.price }} &nbsp; </td></tr>
+            <tr><td>{{ el.id_lenses }} &nbsp;
+            </td><td>{{ el.name_lenses }} &nbsp;
+            </td><td>{{ el.diopter }} &nbsp;
+            </td><td>{{ el.manufact }} &nbsp;
+            </td><td>{{ el.id_color.name_color}} &nbsp;
+            </td><td>{{ el.price }} &nbsp;
+            </td><td>{{ el.quantity }} &nbsp;</td><td>
+            <button onclick="document.location = '{% url 'update_quantity_lenses' el.id_lenses %}';">Добавить количество</button></td><td>
+            <button onclick="document.location = '{% url 'delete_order' el.id_lenses %}';">Удалить</button>
+            </td></tr>
     {% endfor %}
 </table>
 {% endblock %}

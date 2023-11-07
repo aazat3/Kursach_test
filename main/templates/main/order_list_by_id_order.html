@@ -30,7 +30,9 @@
         <th>Количество &nbsp;</th>
     </tr>
     {% for el in item %}
-            <tr><td>{{ el.id_order_list }} &nbsp; </td><td>{{ el.id_order.id_order }} &nbsp; </td><td>{{ el.name  }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.id_catalog.id_catalog }} &nbsp; </td><td>{{ el.product_name }} &nbsp; </td><td>{{ el.product_manufact }}</td><td>{{ el.quantity}}</td></tr>
+            <tr><td>{{ el.id_order_list }} &nbsp; </td><td>{{ el.id_order.id_order }} &nbsp; </td><td>{{ el.name  }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.id_catalog.id_catalog }} &nbsp; </td><td>{{ el.product_name }} &nbsp;
+            </td><td>{{ el.product_manufact }}</td><td>{{ el.quantity}}</td><td>
+            <button onclick="document.location = '{% url 'delete_order' el.id_order_list %}';">Удалить</button></td></tr>
     {% endfor %}
 </table>
 
