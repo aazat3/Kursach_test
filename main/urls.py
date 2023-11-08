@@ -26,7 +26,10 @@ urlpatterns = [
     path('update_quantity_accessories/<int:my_id>/', views.update_quantity_accessories, name='update_quantity_accessories'),
 
     path('delete_prescription/<int:my_id>/', views.delete_prescription, name='delete_prescription'),
+
     path('delete_order/<int:my_id>/', views.delete_order, name='delete_order'),
     #path('delete_confirm/<int:my_id>/', views.delete_confirm, name='delete_confirm'),
+
+    path('last_prescription/<int:my_id>/', views.last_prescription, name='last_prescription'),
 
 ]

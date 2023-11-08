@@ -27,7 +27,9 @@
     </tr>
     {% for el in customers %}
             <tr><td>{{ el.id_customer }} &nbsp; </td><td>{{ el.name }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.phone_number }} &nbsp; </td><td>{{ el.email }}</td><td>
-            <button onclick="document.location = '{% url 'delete_order' el.id_customer %}';">Удалить</button></td></tr>
+            <button onclick="document.location = '{% url 'last_prescription' el.id_customer %}';">Зрение</button></td><td>
+            <button onclick="document.location = '{% url 'delete_order' el.id_customer %}';">Удалить</button>
+            </td></tr>
     {% endfor %}
 </table>
 {% endblock %}

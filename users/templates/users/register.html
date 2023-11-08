@@ -1,0 +1,18 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+
+    <form method="post">
+    {% csrf_token %}
+    {{ form }} &nbsp;
+    <button type="submit" name="Add_item" value="Add_item">Зарегестрироваться</button>
+    </form>
+
+{% endblock %}
+

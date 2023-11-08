@@ -6,22 +6,9 @@
 
 {% block content %}
 
-  <form method="post">
-      <h1>Добавить рецепт</h1>
-      {% csrf_token %}
-      <br/>
-      <input type="text" placeholder="Имя врача..." name="employee_name" id="employee_name">
-      <input type="text" placeholder="Фамилия врача..." name="employee_surname" id="employee_surname">
-      <input type="text" placeholder="Имя клиента..." name="customer_name" id="customer_name">
-      <input type="text" placeholder="Фамилия клиента..." name="customer_surname" id="customer_surname">
-      <input type="number" step="any" placeholder="Левый глаз..." name="right_diopter" id="right_diopter">
-      <input type="number" step="any" placeholder="Правый глаз..." name="left_diopter" id="left_diopter">
-      <input type="number" placeholder="Дистанция..." name="distance" id="distance">
-      <input type="date" placeholder="Дата..." name="date" id="date">
-      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
-<br>
 <table border="2">
+    <h1>Последние 5 рецептов</h1>
+
     <caption>Таблица рецептов</caption>
     <tr>
 
@@ -36,7 +23,7 @@
         <th>Дата &nbsp;</th>
         <th>  &nbsp;</th>
     </tr>
-    {% for el in prescription %}
+    {% for el in item %}
     <tr><td>{{ el.id_prescribtion }} &nbsp;
     </td><td>{{ el.employee_name }} &nbsp;
     </td><td>{{ el.employee_surname }} &nbsp;

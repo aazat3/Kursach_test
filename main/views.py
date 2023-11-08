@@ -271,3 +271,11 @@ def delete_prescription(request, my_id):
     return render(request, 'main/delete_confirm.html', {"item": item})
 
 
+def last_prescription(request, my_id):
+    #item = PrescriptionWithoutId.objects.filter(id_customer=my_id)
+    item = PrescriptionWithoutId.objects.raw("select * from dbo.[customer_last_prescription](%s)", [my_id])
+    return render(request, 'main/last_prescription.html', {"item": item})
+
+
+def profile(request):
+    return render(request, 'users/profile.html', {"item": item})

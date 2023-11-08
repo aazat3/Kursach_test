@@ -22,8 +22,8 @@
     <caption>Таблица принятых заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
-        <th>Имя врача &nbsp;</th>
-        <th>Фамилия врача &nbsp;</th>
+        <th>Имя работника &nbsp;</th>
+        <th>Фамилия работника &nbsp;</th>
         <th>Имя клиента &nbsp;</th>
         <th>Фамилия клиента &nbsp;</th>
         <th>Дата принятия &nbsp;</th>
@@ -69,6 +69,7 @@
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
             <button onclick="document.location = '{% url 'update_status2' el.id_order %}';">Выдан</button>
+            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
             <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
 
 
@@ -99,6 +100,7 @@
             </td><td>{{ el.date_assignment }} &nbsp;
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
+            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
             </td></tr>
     {% endfor %}
 </table>

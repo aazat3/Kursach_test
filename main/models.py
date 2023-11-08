@@ -109,8 +109,10 @@ class Prescription(models.Model):
 
 class PrescriptionWithoutId(models.Model):
     id_prescribtion = models.AutoField(primary_key=True)
+    id_employee = models.ForeignKey(EyeDoctor, models.DO_NOTHING, db_column='id_employee', blank=True, null=True)
     employee_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     employee_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    id_customer = models.ForeignKey(Customer, models.DO_NOTHING, db_column='id_customer', blank=True, null=True)
     customer_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     customer_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     right_diopter = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
@@ -120,7 +122,7 @@ class PrescriptionWithoutId(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'prescription_without_id'
+        db_table = 'prescription_without_id_2'
 
 
 class Rim(models.Model):
