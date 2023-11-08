@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block content %}
+        <h1>Тип товара</h1>
 
+<button onclick="document.location = '{% url 'add_rim' %}';">Оправы</button>
+        <button onclick="document.location = '{% url 'add_lenses' %}';">Линзы</button>
+        <button onclick="document.location = '{% url 'add_accessories' %}';">Аксессуары</button>
   <form method="post">
     {% csrf_token %}
     <br/>

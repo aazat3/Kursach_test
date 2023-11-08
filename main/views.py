@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.db import connection
-from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId, AccessoriesWithQuantity, LensesWithQuantity, RimWithQuantity
+from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim,\
+    ShopEmployee, Status, OverdueOrder, OrderListByIdOrder, OrderrWithoutId,PrescriptionWithoutId, \
+    AccessoriesWithQuantity, LensesWithQuantity, RimWithQuantity
+from .forms import NewUserForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -10,6 +14,7 @@ def home(request):
     accessories = Accessories.objects.all()
     return render(request, 'main/home.html', {'title': 'Главная страница сайта', 'rim': rim, 'lenses': lenses, 'accessories': accessories})
 
+@login_required()
 
 def about_us(request):
     with connection.cursor() as cursor:
@@ -17,6 +22,7 @@ def about_us(request):
         row = cursor.fetchone()  # получаем одну строку
     return render(request, 'main/overdue_order.html')
 
+@login_required()
 
 def add_item(request):
     rim = Rim.objects.all()
@@ -24,6 +30,7 @@ def add_item(request):
     accessories = Accessories.objects.all()
     return render(request, 'main/add_item.html',{'title': 'Товары','rim': rim, 'lenses': lenses, 'accessories': accessories})
 
+@login_required()
 
 def add_rim(request):
     rim = RimWithQuantity.objects.all()
@@ -40,6 +47,7 @@ def add_rim(request):
         item.save()
     return render(request, 'main/add_rim.html', {"item": rim})
 
+@login_required()
 
 def add_lenses(request):
     lenses = LensesWithQuantity.objects.all()
@@ -57,6 +65,7 @@ def add_lenses(request):
         item.save()
     return render(request, 'main/add_lenses.html', {"item": lenses})
 
+@login_required()
 
 def add_accessories(request):
     accessories = AccessoriesWithQuantity.objects.all()
@@ -69,6 +78,7 @@ def add_accessories(request):
         item.save()
     return render(request, 'main/add_accessories.html', {"item": accessories})
 
+@login_required()
 
 def update_quantity_rim(request, my_id):
     item = Catalog.objects.get(id_rim=my_id)
@@ -80,6 +90,7 @@ def update_quantity_rim(request, my_id):
         return redirect("add_rim")
     return render(request, 'main/update_quantity.html')
 
+@login_required()
 
 def update_quantity_lenses(request, my_id):
     item = Catalog.objects.get(id_lenses=my_id)
@@ -91,6 +102,7 @@ def update_quantity_lenses(request, my_id):
         return redirect("add_lenses")
     return render(request, 'main/update_quantity.html')
 
+@login_required()
 
 def update_quantity_accessories(request, my_id):
     item = Catalog.objects.get(id_accessories=my_id)
@@ -102,11 +114,13 @@ def update_quantity_accessories(request, my_id):
         return redirect("add_accessories")
     return render(request, 'main/update_quantity.html')
 
+@login_required()
 
 def overdue_order(request):
     order = OverdueOrder.objects.all()
     return render(request, 'main/overdue_order.html',{'order': order})
 
+@login_required()
 
 def customer(request):
     customer1 = Customer.objects.all()
@@ -121,6 +135,7 @@ def customer(request):
                            [name, surname, phone_number, email])
     return render(request, 'main/customer.html',{'customers': customer1})
 
+@login_required()
 
 def shop_employee(request):
     shop_employee1 = ShopEmployee.objects.all()
@@ -137,6 +152,7 @@ def shop_employee(request):
         item.save()
     return render(request, 'main/shop_employee.html', { 'shop_employee': shop_employee1 })
 
+@login_required()
 
 def eye_doctor(request):
     eye_doctor1 = EyeDoctor.objects.all()
@@ -153,6 +169,7 @@ def eye_doctor(request):
         item.save()
     return render(request, 'main/eye_doctor.html',{'eye_doctor': eye_doctor1})
 
+@login_required()
 
 def order(request):
     order1 = OrderrWithoutId.objects.filter(id_status_id=1)
@@ -179,6 +196,29 @@ def order(request):
                            [id_employee, id_prescription, date_acceptance])
     return render(request, 'main/order.html',{'order1': order1,'order2': order2,'order3': order3,'order4': order4,})
 
+@login_required()
+
+def create_order(request, my_id):
+    order1 = OrderrWithoutId.objects.filter(id_status_id=1)
+    order2 = OrderrWithoutId.objects.filter(id_status_id=2)
+    order3 = OrderrWithoutId.objects.filter(id_status_id=3)
+    order4 = OrderrWithoutId.objects.filter(id_status_id=4)
+
+    if request.method == "POST":
+        id_employee = request.POST.get("id_employee")
+        # id_prescription = request.POST.get("id_prescription")
+        id_customer = request.POST.get("id_customer")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.customer_prescription(%s)", [id_customer])
+            id_prescription = cursor.fetchone()[0]
+        date_acceptance = request.POST.get("date_acceptance")
+        with connection.cursor() as cursor:
+            cursor.execute("exec [create_order] %s, %s, %s",
+                           [id_employee, id_prescription, date_acceptance])
+    return render(request, 'main/create_order.html',
+                  {'order1': order1, 'order2': order2, 'order3': order3, 'order4': order4, 'my_id': my_id })
+
+@login_required()
 
 def delete_order(request, my_id):
     item = Orderr.objects.get(id_order=my_id)
@@ -187,6 +227,7 @@ def delete_order(request, my_id):
         return redirect("order")
     return render(request, 'main/delete_confirm.html', {"item": item})
 
+@login_required()
 
 def update_status1(request, my_id):
     item = Orderr.objects.get(id_order=my_id)
@@ -196,6 +237,7 @@ def update_status1(request, my_id):
         return redirect("order")
     return render(request, 'main/update_status1.html', {"item": item})
 
+@login_required()
 
 def update_status2(request, my_id):
     item = Orderr.objects.get(id_order=my_id)
@@ -205,6 +247,7 @@ def update_status2(request, my_id):
         return redirect("order")
     return render(request, 'main/update_status2.html', {"item": item})
 
+@login_required()
 
 def update_status3(request, my_id):
     item = Orderr.objects.get(id_order=my_id)
@@ -220,6 +263,7 @@ def update_status3(request, my_id):
 
 
 
+@login_required()
 
 def order_list_by_id_order(request, my_id):
     item = OrderListByIdOrder.objects.raw("select * from dbo.[order_list_orderr_id](%s)", [my_id])
@@ -236,6 +280,7 @@ def order_list_by_id_order(request, my_id):
         item2.save()
     return render(request, 'main/order_list_by_id_order.html', {"item": item})
 
+@login_required()
 
 def prescription(request):
     prescription1 = PrescriptionWithoutId.objects.all()
@@ -262,6 +307,23 @@ def prescription(request):
                            [id_employee,id_customer,right_diopter,left_diopter,distance,date])
     return render(request, 'main/prescription.html',{'prescription': prescription1})
 
+@login_required()
+
+def create_prescription(request, my_id):
+    prescription1 = PrescriptionWithoutId.objects.all()
+    if request.method == "POST":
+        id_employee = request.POST.get("id_employee")
+        id_customer = request.POST.get("id_customer")
+        right_diopter = request.POST.get("right_diopter")
+        left_diopter = request.POST.get("left_diopter")
+        distance = request.POST.get("distance")
+        date = request.POST.get("date")
+        with connection.cursor() as cursor:
+            cursor.execute("exec [create_prescription] %s, %s, %s, %s, %s, %s",
+                           [id_employee,id_customer,right_diopter,left_diopter,distance,date])
+    return render(request, 'main/create_prescription.html',{'prescription': prescription1, 'my_id': my_id})
+
+@login_required()
 
 def delete_prescription(request, my_id):
     item = Prescription.objects.get(id_prescribtion=my_id)
@@ -270,6 +332,7 @@ def delete_prescription(request, my_id):
         return redirect("prescription")
     return render(request, 'main/delete_confirm.html', {"item": item})
 
+@login_required()
 
 def last_prescription(request, my_id):
     #item = PrescriptionWithoutId.objects.filter(id_customer=my_id)
@@ -277,5 +340,28 @@ def last_prescription(request, my_id):
     return render(request, 'main/last_prescription.html', {"item": item})
 
 
+def register(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+        #return redirect("/users/register")
+    form = NewUserForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'main/register.html', context)
+
+@login_required()
 def profile(request):
-    return render(request, 'users/profile.html', {"item": item})
+    return render(request, "main/profile.html")
+
+@login_required()
+def profileemployee(request):
+    return render(request, "main/profile.html")
+
+@login_required()
+def profiledoctor(request):
+    return render(request, "main/profile.html")
+
+

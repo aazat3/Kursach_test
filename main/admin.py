@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status
+from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, OrderList, Orderr, Prescription, Rim, ShopEmployee, Status, ProfileDoctor, ProfileEmployee
 
 
 admin.site.register(Accessories)
@@ -17,4 +17,5 @@ admin.site.register(Prescription)
 admin.site.register(Rim)
 admin.site.register(ShopEmployee)
 admin.site.register(Status)
-
+admin.site.register(ProfileEmployee)
+admin.site.register(ProfileDoctor)

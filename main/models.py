@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -55,6 +55,7 @@ class Customer(models.Model):
 
 class EyeDoctor(models.Model):
     id_employee = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     patronymic = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
@@ -66,6 +67,14 @@ class EyeDoctor(models.Model):
     class Meta:
         managed = False
         db_table = 'eye_doctor'
+
+
+class ProfileDoctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    id_employee = models.OneToOneField(EyeDoctor, models.DO_NOTHING, db_column='id_employee', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Lenses(models.Model):
@@ -149,6 +158,7 @@ class RimWithQuantity(models.Model):
         managed = False
         db_table = 'rim_quantity'
 
+
 class ShopEmployee(models.Model):
     id_employee = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
@@ -162,6 +172,14 @@ class ShopEmployee(models.Model):
     class Meta:
         managed = False
         db_table = 'shop_employee'
+
+
+class ProfileEmployee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    id_employee = models.OneToOneField(ShopEmployee, models.DO_NOTHING, db_column='id_employee', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Status(models.Model):

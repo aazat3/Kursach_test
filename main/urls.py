@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.contrib.auth.views import LoginView, LogoutView
+
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -15,7 +18,9 @@ urlpatterns = [
     path('shop_employee', views.shop_employee, name='shop_employee'),
     path('eye_doctor', views.eye_doctor, name='eye_doctor'),
     path('prescription', views.prescription, name='prescription'),
+    path('create_prescription/<int:my_id>/', views.create_prescription, name='create_prescription'),
     path('order', views.order, name='order'),
+    path('create_order/<int:my_id>/', views.create_order, name='create_order'),
     path('order_list_by_id_order/<int:my_id>/', views.order_list_by_id_order, name='order_list_by_id_order'),
 
     path('update_status1/<int:my_id>/', views.update_status1, name='update_status1'),
@@ -31,5 +36,11 @@ urlpatterns = [
     #path('delete_confirm/<int:my_id>/', views.delete_confirm, name='delete_confirm'),
 
     path('last_prescription/<int:my_id>/', views.last_prescription, name='last_prescription'),
+
+
+    path('register/', views.register, name='register'),
+    path('login/', LoginView.as_view(template_name='main/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(template_name='main/logout.html'), name='logout'),
+    path('profile/', views.profileemployee, name='profile'),
 
 ]

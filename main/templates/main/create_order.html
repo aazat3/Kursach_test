@@ -10,9 +10,8 @@
       <h1>Добавить заказ</h1>
       {% csrf_token %}
       <br/>
-      <input type="text" placeholder="Имя продавца..." name="employee_name" id="employee_name">
-      <input type="text" placeholder="Имя продавца..." name="employee_surname" id="employee_surname">      <input type="text" placeholder="Фамилия клиента..." name="customer_name" id="customer_name">
-      <input type="text" placeholder="Фамилия клиента..." name="customer_surname" id="customer_surname">
+      <input type="number" placeholder="Id Сотрудника..." name="id_employee" id="id_employee" value="{{ user.profileemployee.id_employee.id_employee }}">
+      <input type="number" placeholder="Id клиента..." name="id_customer" id="id_customer" value="{{ my_id }}">
       <input type="date" placeholder="Дата принятия..." name="date_acceptance" id="date_acceptance">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
   </form>
