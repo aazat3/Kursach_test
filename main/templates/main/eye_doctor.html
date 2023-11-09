@@ -34,7 +34,7 @@
     </tr>
     {% for el in eye_doctor %}
             <tr><td>{{ el.id_employee }} &nbsp; </td><td>{{ el.name }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.patronymic }} &nbsp; </td><td>{{ el.post }} &nbsp; </td><td>{{ el.phone_number }} &nbsp; </td><td>{{ el.passport_details }} &nbsp; </td><td>{{ el.adress }}</td><td>
-            <button onclick="document.location = '{% url 'delete_order' el.id_employee %}';">Удалить</button></td></tr>
+            <button onclick="document.location = '{% url 'delete_eye_doctor' el.id_employee %}';">Удалить</button></td></tr>
     {% endfor %}
 </table>
 

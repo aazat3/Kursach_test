@@ -67,7 +67,7 @@
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
             <button onclick="document.location = '{% url 'update_status2' el.id_order %}';">Выдан</button>
-            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
+            <button onclick="document.location = '{% url 'check' el.id_order %}';">Товары</button>
             <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
 
 
@@ -98,7 +98,7 @@
             </td><td>{{ el.date_assignment }} &nbsp;
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
+            <button onclick="document.location = '{% url 'check' el.id_order %}';">Товары</button>
             </td></tr>
     {% endfor %}
 </table>

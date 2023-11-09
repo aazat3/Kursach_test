@@ -22,6 +22,8 @@ urlpatterns = [
     path('order', views.order, name='order'),
     path('create_order/<int:my_id>/', views.create_order, name='create_order'),
     path('order_list_by_id_order/<int:my_id>/', views.order_list_by_id_order, name='order_list_by_id_order'),
+    path('check/<int:my_id>/', views.check, name='check'),
+    path('checkdowload/', views.checkdowload, name='checkdowload'),
 
     path('update_status1/<int:my_id>/', views.update_status1, name='update_status1'),
     path('update_status2/<int:my_id>/', views.update_status2, name='update_status2'),
@@ -31,6 +33,12 @@ urlpatterns = [
     path('update_quantity_accessories/<int:my_id>/', views.update_quantity_accessories, name='update_quantity_accessories'),
 
     path('delete_prescription/<int:my_id>/', views.delete_prescription, name='delete_prescription'),
+    path('delete_customer/<int:my_id>/', views.delete_customer, name='delete_customer'),
+    path('delete_shop_employee/<int:my_id>/', views.delete_shop_employee, name='delete_shop_employee'),
+    path('delete_eye_doctor/<int:my_id>/', views.delete_eye_doctor, name='delete_eye_doctor'),
+    path('delete_lenses/<int:my_id>/', views.delete_lenses, name='delete_lenses'),
+    path('delete_rim/<int:my_id>/', views.delete_rim, name='delete_rim'),
+    path('delete_accessories/<int:my_id>/', views.delete_accessories, name='delete_accessories'),
 
     path('delete_order/<int:my_id>/', views.delete_order, name='delete_order'),
     #path('delete_confirm/<int:my_id>/', views.delete_confirm, name='delete_confirm'),

@@ -1,0 +1,31 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+        <h2>Id заказа &nbsp;{{ order.id_order }}&nbsp;
+        Имя &nbsp;{{ order.customer_name }}&nbsp;
+        Фамилия &nbsp;{{ order.customer_surname }}&nbsp;
+        Дата сдачи &nbsp;{{ order.date_assignment }}&nbsp;
+
+<table border="2">
+    <caption>Таблица товаров заказов</caption>
+    <tr>
+        <th>Id товара &nbsp;</th>
+        <th>Название &nbsp;</th>
+        <th>Производитель &nbsp;</th>
+        <th>Количество &nbsp;</th>
+    </tr>
+    {% for el in item %}
+            <tr><td>{{ el.id_catalog.id_catalog }} &nbsp; </td><td>{{ el.product_name }} &nbsp;
+            </td><td>{{ el.product_manufact }}</td><td>{{ el.quantity}}</td><td>
+    {% endfor %}
+</table>
+      <h2>  Итоговая цена &nbsp;{{ order.end_price }}&nbsp;</h2>
+            <br>
+            <button onclick="document.location = '{% url 'checkdowload'%}';">Открыть файл</button>
+
+
+{% endblock %}

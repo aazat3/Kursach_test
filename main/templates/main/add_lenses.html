@@ -41,7 +41,7 @@
             </td><td>{{ el.price }} &nbsp;
             </td><td>{{ el.quantity }} &nbsp;</td><td>
             <button onclick="document.location = '{% url 'update_quantity_lenses' el.id_lenses %}';">Добавить количество</button></td><td>
-            <button onclick="document.location = '{% url 'delete_order' el.id_lenses %}';">Удалить</button>
+            <button onclick="document.location = '{% url 'delete_lenses' el.id_lenses %}';">Удалить</button>
             </td></tr>
     {% endfor %}
 </table>

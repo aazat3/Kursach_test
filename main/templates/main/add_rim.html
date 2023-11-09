@@ -39,7 +39,7 @@
             </td><td>{{ el.price }}&nbsp;
             </td><td>{{ el.quantity }} &nbsp; </td><td>
             <button onclick="document.location = '{% url 'update_quantity_rim' el.id_rim %}';">Добавить количество</button></td><td>
-            <button onclick="document.location = '{% url 'delete_order' el.id_rim %}';">Удалить</button>
+            <button onclick="document.location = '{% url 'delete_rim' el.id_rim %}';">Удалить</button>
             </td></tr>
     {% endfor %}
 </table>

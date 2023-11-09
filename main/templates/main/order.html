@@ -11,7 +11,8 @@
       {% csrf_token %}
       <br/>
       <input type="text" placeholder="Имя продавца..." name="employee_name" id="employee_name">
-      <input type="text" placeholder="Имя продавца..." name="employee_surname" id="employee_surname">      <input type="text" placeholder="Фамилия клиента..." name="customer_name" id="customer_name">
+      <input type="text" placeholder="Фамилия продавца..." name="employee_surname" id="employee_surname">
+      <input type="text" placeholder="Имя клиента..." name="customer_name" id="customer_name">
       <input type="text" placeholder="Фамилия клиента..." name="customer_surname" id="customer_surname">
       <input type="date" placeholder="Дата принятия..." name="date_acceptance" id="date_acceptance">
       <button type="submit" name="Add_item" value="Add_item">Добавить</button>
@@ -68,7 +69,7 @@
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
             <button onclick="document.location = '{% url 'update_status2' el.id_order %}';">Выдан</button>
-            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
+            <button onclick="document.location = '{% url 'check' el.id_order %}';">Товары</button>
             <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
 
 
@@ -99,7 +100,7 @@
             </td><td>{{ el.date_assignment }} &nbsp;
             </td><td>{{ el.id_status.meaning_status }} &nbsp;
             </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
+            <button onclick="document.location = '{% url 'check' el.id_order %}';">Товары</button>
             </td></tr>
     {% endfor %}
 </table>
