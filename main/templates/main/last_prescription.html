@@ -6,9 +6,9 @@
 
 {% block content %}
 
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <h1>Последние 5 рецептов</h1>
-
+    <br>
     <caption>Таблица рецептов</caption>
     <tr>
 
@@ -33,7 +33,7 @@
     </td><td>{{ el.left_diopter }} &nbsp;
     </td><td>{{ el.distance }} &nbsp;
     </td><td>{{ el.date }} &nbsp;</td><td>
-    <button onclick="document.location = '{% url 'delete_order' el.id_prescribtion %}';">Удалить</button>
+    <button onclick="document.location = '{% url 'delete_prescription' el.id_prescribtion %}';" class="btn btn-danger">Удалить</button>
     </tr></td>
     {% endfor %}
 </table>

@@ -5,6 +5,8 @@ from .models import Accessories, Catalog, Color, Customer, EyeDoctor, Lenses, Or
     AccessoriesWithQuantity, LensesWithQuantity, RimWithQuantity
 from .forms import NewUserForm
 from django.contrib.auth.decorators import login_required, permission_required
+from django.urls import reverse
+
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -144,7 +146,6 @@ def customer(request):
         surname = request.POST.get("surname")
         phone_number = request.POST.get("phone_number")
         email = request.POST.get("email")
-        email = request.POST.get("email")
         with connection.cursor() as cursor:
             cursor.execute("exec [create_customer] %s, %s, %s, %s",
                            [name, surname, phone_number, email])
@@ -204,13 +205,16 @@ def order(request):
         # id_prescription = request.POST.get("id_prescription")
         customer_name = request.POST.get("customer_name")
         customer_surname = request.POST.get("customer_surname")
+        # with connection.cursor() as cursor:
+        #     cursor.execute("SELECT dbo.customer_prescription(%s,%s)", [customer_name, customer_surname])
+        #     id_prescription = cursor.fetchone()[0]
         with connection.cursor() as cursor:
-            cursor.execute("SELECT dbo.customer_prescription(%s,%s)", [customer_name, customer_surname])
-            id_prescription = cursor.fetchone()[0]
+            cursor.execute("SELECT dbo.customer_id(%s,%s)", [customer_name, customer_surname])
+            id_customer = cursor.fetchone()[0]
         date_acceptance = request.POST.get("date_acceptance")
         with connection.cursor() as cursor:
             cursor.execute("exec [create_order] %s, %s, %s",
-                           [id_employee, id_prescription, date_acceptance])
+                           [id_employee, id_customer, date_acceptance])
     return render(request, 'main/order.html',
                   {'order1': order1, 'order2': order2, 'order3': order3, 'order4': order4, })
 
@@ -218,6 +222,7 @@ def order(request):
 @login_required()
 @permission_required('main.view_orderr')
 def create_order(request, my_id):
+
     order1 = OrderrWithoutId.objects.filter(id_status_id=1)
     order2 = OrderrWithoutId.objects.filter(id_status_id=2)
     order3 = OrderrWithoutId.objects.filter(id_status_id=3)
@@ -227,15 +232,79 @@ def create_order(request, my_id):
         id_employee = request.POST.get("id_employee")
         # id_prescription = request.POST.get("id_prescription")
         id_customer = request.POST.get("id_customer")
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT dbo.customer_prescription2(%s)", [id_customer])
-            id_prescription = cursor.fetchone()[0]
+        # with connection.cursor() as cursor:
+        #     cursor.execute("SELECT dbo.customer_prescription2(%s)", [id_customer])
+        #     id_prescription = cursor.fetchone()[0]
         date_acceptance = request.POST.get("date_acceptance")
         with connection.cursor() as cursor:
             cursor.execute("exec [create_order] %s, %s, %s",
-                           [id_employee, id_prescription, date_acceptance])
+                           [id_employee, id_customer, date_acceptance])
     return render(request, 'main/create_order.html',
-                  {'order1': order1, 'order2': order2, 'order3': order3, 'order4': order4, 'my_id': my_id})
+                  {'order1': order1, 'order2': order2, 'order3': order3, 'order4': order4, 'myid': my_id})
+
+
+@login_required()
+def update_status2(request, my_id):
+    item = Orderr.objects.get(id_order=my_id)
+    if request.method == "POST":
+        item.id_status_id = 3
+        item.save()
+        return redirect("order")
+    return render(request, 'main/update_status2.html', {"item": item})
+
+
+@login_required()
+def update_status3(request, my_id):
+    item = Orderr.objects.get(id_order=my_id)
+    if request.method == "POST":
+        item.id_status_id = 4
+        # item.save()
+        with connection.cursor() as cursor:
+            cursor.execute("exec [change_status] %s, %s",
+                           [item.id_status_id, my_id])
+        return redirect("order")
+    return render(request, 'main/update_status3.html', {"item": item})
+
+
+@login_required()
+def order_list_by_id_order(request, my_id):
+    item = OrderListByIdOrder.objects.raw("select * from dbo.[order_list_orderr_id](%s)", [my_id])
+    if request.method == "POST":
+        # id_catalog = request.POST.get("id_catalog")
+        name_item = request.POST.get("name_item")
+        manufact_item = request.POST.get("manufact_item")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dbo.catalog_id(%s,%s)", [name_item, manufact_item])
+            id_catalog = cursor.fetchone()[0]
+        id_order = my_id
+        quantity = request.POST.get("quantity")
+        item2 = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
+        item2.save()
+    return render(request, 'main/order_list_by_id_order.html', {"item": item, "my_id": my_id})
+
+
+@login_required()
+def order_list_by_id_order_2(request, my_id, id_catalog):
+    item = OrderListByIdOrder.objects.raw("select * from dbo.[order_list_orderr_id](%s)", [my_id])
+    if request.method == "POST":
+        id_catalog_this = request.POST.get("id_catalog")
+        # name_item = request.POST.get("name_item")
+        # manufact_item = request.POST.get("manufact_item")
+        # with connection.cursor() as cursor:
+        #     cursor.execute("SELECT dbo.catalog_id(%s,%s)", [name_item, manufact_item])
+        #     id_catalog = cursor.fetchone()[0]
+        id_order = my_id
+        quantity = request.POST.get("quantity")
+        item2 = OrderList(id_catalog_id=id_catalog_this, id_order_id=id_order, quantity=quantity)
+        item2.save()
+    return render(request, 'main/order_list_by_id_order_2.html', {"item": item, "my_id": my_id, "id_catalog": id_catalog})
+
+
+def add_item_into_order_list(request, my_id):
+    accessories = AccessoriesWithQuantity.objects.all()
+    lenses = LensesWithQuantity.objects.all()
+    rim = RimWithQuantity.objects.all()
+    return render(request, 'main/add_item_into_order_list.html', {"accessories": accessories,"lenses": lenses,"rim": rim, "my_id": my_id})
 
 
 def delete_customer(request, my_id):
@@ -279,6 +348,13 @@ def delete_order(request, my_id):
     if request.method == "POST":
         item.delete()
         return redirect("order")
+    return render(request, 'main/delete_confirm.html', {"item": item})
+
+def delete_item(request, item_id, my_id):
+    item = OrderList.objects.get(id_order_list=item_id)
+    if request.method == "POST":
+        item.delete()
+        return redirect("order_list_by_id_order",my_id)
     return render(request, 'main/delete_confirm.html', {"item": item})
 
 def grouper(iterable, n):
@@ -364,44 +440,6 @@ def update_status1(request, my_id):
     return render(request, 'main/update_status1.html', {"item": item})
 
 
-@login_required()
-def update_status2(request, my_id):
-    item = Orderr.objects.get(id_order=my_id)
-    if request.method == "POST":
-        item.id_status_id = 3
-        item.save()
-        return redirect("order")
-    return render(request, 'main/update_status2.html', {"item": item})
-
-
-@login_required()
-def update_status3(request, my_id):
-    item = Orderr.objects.get(id_order=my_id)
-    if request.method == "POST":
-        item.id_status_id = 4
-        # item.save()
-        with connection.cursor() as cursor:
-            cursor.execute("exec [change_status] %s, %s",
-                           [item.id_status_id, my_id])
-        return redirect("order")
-    return render(request, 'main/update_status3.html', {"item": item})
-
-
-@login_required()
-def order_list_by_id_order(request, my_id):
-    item = OrderListByIdOrder.objects.raw("select * from dbo.[order_list_orderr_id](%s)", [my_id])
-    if request.method == "POST":
-        # id_catalog = request.POST.get("id_catalog")
-        name_item = request.POST.get("name_item")
-        manufact_item = request.POST.get("manufact_item")
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT dbo.catalog_id(%s,%s)", [name_item, manufact_item])
-            id_catalog = cursor.fetchone()[0]
-        id_order = my_id
-        quantity = request.POST.get("quantity")
-        item2 = OrderList(id_catalog_id=id_catalog, id_order_id=id_order, quantity=quantity)
-        item2.save()
-    return render(request, 'main/order_list_by_id_order.html', {"item": item})
 
 
 @login_required()

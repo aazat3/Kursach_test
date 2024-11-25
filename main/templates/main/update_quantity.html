@@ -8,8 +8,12 @@
 
 <form method="post">
     {% csrf_token %}
-    <input type="text" placeholder="Количество..." name="quantity" id="quantity">
-    <button type="submit" class="button" title="Выполнить выбранное действие" name="index" value="Confirm">Добавить</button>
+    <div class="input-group mb-3">
+        <input type="number" placeholder="Количество..." name="quantity" id="quantity" class="form-control">
+        <button type="submit" title="Выполнить выбранное действие" name="index" value="Confirm" class="btn btn-primary">
+            Добавить
+        </button>
+    </div>
 </form>
 
 {% endblock %}

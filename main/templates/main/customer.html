@@ -6,17 +6,20 @@
 
 {% block content %}
 <form method="post">
-      <h1>Добавить клиента</h1>
-      {% csrf_token %}
-      <br/>
-      <input type="text" placeholder="Имя..." name="name" id="name">
-      <input type="text" placeholder="Фамилия..." name="surname" id="surname">
-      <input type="text" placeholder="Телефон..." name="phone_number" id="phone_number">
-      <input type="text" placeholder="Электронная почта..." name="email" id="email">
-      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+    <h1>Клиенты</h1>
+    {% csrf_token %}
+    <br/>
+    <div class="input-group mb-3">
+        <input type="text" placeholder="Имя..." name="name" id="name" class="form-control">
+        <input type="text" placeholder="Фамилия..." name="surname" id="surname" class="form-control">
+        <input type="text" placeholder="Телефон..." name="phone_number" id="phone_number" class="form-control">
+        <input type="text" placeholder="Электронная почта..." name="email" id="email" class="form-control">
+        <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Добавить</button>
+    </div>
 </form>
 <br>
-<table border="1">
+
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица клиентов</caption>
     <tr>
         <th>id &nbsp;</th>
@@ -24,14 +27,36 @@
         <th>Фамилия &nbsp;</th>
         <th>Телефон &nbsp;</th>
         <th>Элетронная почта &nbsp;</th>
+        <th>Рецепты &nbsp;</th>
+        <th>Заказ &nbsp;</th>
+        <th>Удалить &nbsp;</th>
     </tr>
     {% for el in customers %}
-            <tr><td>{{ el.id_customer }} &nbsp; </td><td>{{ el.name }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.phone_number }} &nbsp; </td><td>{{ el.email }}</td><td>
-            <button onclick="document.location = '{% url 'last_prescription' el.id_customer %}';">Зрение</button></td><td>
-            <button onclick="document.location = '{% url 'delete_customer' el.id_customer %}';">Удалить</button>
-            <button onclick="document.location = '{% url 'create_prescription' el.id_customer %}';">Создать рецепт</button></td><td>
-            <button onclick="document.location = '{% url 'create_order' el.id_customer %}';">Создать заказ</button>
-            </td></tr>
+    <tr>
+        <td>{{ el.id_customer }} &nbsp;</td>
+        <td>{{ el.name }} &nbsp;</td>
+        <td>{{ el.surname }} &nbsp;</td>
+        <td>{{ el.phone_number }} &nbsp;</td>
+        <td>{{ el.email }}</td>
+        <td>
+            <button onclick="document.location = '{% url 'last_prescription' el.id_customer %}';"
+                    class="btn btn-outline-primary">Зрение
+            </button>
+            <button onclick="document.location = '{% url 'create_prescription' el.id_customer %}';"
+                    class="btn btn-primary">Создать рецепт
+            </button>
+        </td>
+        <td>
+            <button onclick="document.location = '{% url 'create_order' el.id_customer %}';" class="btn btn-primary">
+                Создать заказ
+            </button>
+        </td>
+        <td>
+            <button onclick="document.location = '{% url 'delete_customer' el.id_customer %}';" class="btn btn-danger">
+                Удалить
+            </button>
+        </td>
+    </tr>
     {% endfor %}
 </table>
 {% endblock %}

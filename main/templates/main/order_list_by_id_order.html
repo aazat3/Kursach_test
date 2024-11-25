@@ -7,17 +7,24 @@
 {% block content %}
 
 
-  <form method="post">
-      <h1>Добавить товары в заказ</h1>
-      {% csrf_token %}
-      <br/>
-      <input type="text" placeholder="Название товара..." name="name_item" id="name_item">
-      <input type="text" placeholder="Производитель..." name="manufact_item" id="manufact_item">
-      <input type="number" placeholder="Количество..." name="quantity" id="quantity">
-      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
+<form method="post">
+    <h1>Добавить товары в заказ</h1>
+    {% csrf_token %}
+    <br/>
+    <div class="input-group mb-3">
+
+        <input type="text" placeholder="Название товара..." name="name_item" id="name_item" class="form-control">
+        <input type="text" placeholder="Производитель..." name="manufact_item" id="manufact_item" class="form-control">
+        <input type="number" placeholder="Количество..." name="quantity" id="quantity" class="form-control">
+        <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Добавить</button>
+    </div>
+
+</form>
 <br>
-<table border="2">
+<button onclick="document.location = '{% url 'add_item_into_order_list'  my_id  %}';" class="btn btn-primary">Добавить из каталога</button>
+<br>
+<br>
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица товаров заказов</caption>
     <tr>
         <th>Id товара заказа &nbsp;</th>
@@ -28,11 +35,27 @@
         <th>Название &nbsp;</th>
         <th>Производитель &nbsp;</th>
         <th>Количество &nbsp;</th>
+        <th>Удаление &nbsp;</th>
+
     </tr>
     {% for el in item %}
-            <tr><td>{{ el.id_order_list }} &nbsp; </td><td>{{ el.id_order.id_order }} &nbsp; </td><td>{{ el.name  }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.id_catalog.id_catalog }} &nbsp; </td><td>{{ el.product_name }} &nbsp;
-            </td><td>{{ el.product_manufact }}</td><td>{{ el.quantity}}</td><td>
-            <button onclick="document.location = '{% url 'delete_order' el.id_order_list %}';">Удалить</button></td></tr>
+    <tr>
+        <td>{{ el.id_order_list }} &nbsp;</td>
+        <td>{{ el.id_order.id_order }} &nbsp;</td>
+        <td>{{ el.name }} &nbsp;</td>
+        <td>{{ el.surname }} &nbsp;</td>
+        <td>{{ el.id_catalog.id_catalog }} &nbsp;</td>
+        <td>{{ el.product_name }} &nbsp;
+        </td>
+        <td>{{ el.product_manufact }}</td>
+        <td>{{ el.quantity}}</td>
+        <td>
+            <button onclick="document.location = '{% url 'delete_item' el.id_order.id_order  el.id_order_list %}';" class="btn btn-danger">
+                Удалить
+            </button>
+        </td>
+    </tr>
+
     {% endfor %}
 </table>
 

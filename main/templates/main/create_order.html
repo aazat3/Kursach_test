@@ -6,17 +6,24 @@
 
 {% block content %}
 
-  <form method="post">
-      <h1>Добавить заказ</h1>
-      {% csrf_token %}
-      <br/>
-      <input type="number" placeholder="Id Сотрудника..." name="id_employee" id="id_employee" value="{{ user.profileemployee.id_employee.id_employee }}">
-      <input type="number" placeholder="Id клиента..." name="id_customer" id="id_customer" value="{{ my_id }}">
-      <input type="date" placeholder="Дата принятия..." name="date_acceptance" id="date_acceptance">
-      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
+<form method="post">
+    <h1>Заказы</h1>
+    {% csrf_token %}
+    <br/>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Добавить новый</span>
+        <input type="number" placeholder="Id Сотрудника..." name="id_employee" id="id_employee"
+               value="{{ user.profileemployee.id_employee.id_employee }}" class="form-control">
+        <input type="number" placeholder="Id клиента..." name="id_customer" id="id_customer" value="{{ myid }}"
+               class="form-control">
+        <input type="date" placeholder="Дата принятия..." name="date_acceptance" id="date_acceptance"
+               class="form-control">
+        <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Добавить</button>
+    </div>
+
+</form>
 <br><br>
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица принятых заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
@@ -27,25 +34,47 @@
         <th>Дата принятия &nbsp;</th>
         <th>Статус &nbsp;</th>
         <th>Итоговая цена &nbsp;</th>
+        <th>Товары &nbsp;</th>
+        <th>Изсенить статус &nbsp;</th>
+        <th>Отмена &nbsp;</th>
     </tr>
     {% for el in order1 %}
-            <tr><td>{{ el.id_order }} &nbsp;
-            </td><td>{{ el.employee_name }} &nbsp;
-            </td><td>{{ el.employee_surname }} &nbsp;
-            </td><td>{{ el.customer_name }} &nbsp;
-            </td><td>{{ el.customer_surname }} &nbsp;
-            </td><td>{{ el.date_acceptance }} &nbsp;
-            </td><td>{{ el.id_status.meaning_status }} &nbsp;
-            </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';">Товары</button>
-            <button onclick="document.location = '{% url 'update_status1' el.id_order %}';">Готов</button>
-            <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
-
-            </td></tr>
+    <tr>
+        <td>{{ el.id_order }} &nbsp;
+        </td>
+        <td>{{ el.employee_name }} &nbsp;
+        </td>
+        <td>{{ el.employee_surname }} &nbsp;
+        </td>
+        <td>{{ el.customer_name }} &nbsp;
+        </td>
+        <td>{{ el.customer_surname }} &nbsp;
+        </td>
+        <td>{{ el.date_acceptance }} &nbsp;
+        </td>
+        <td>{{ el.id_status.meaning_status }} &nbsp;
+        </td>
+        <td>{{ el.end_price }}</td>
+        <td>
+            <button onclick="document.location = '{% url 'order_list_by_id_order' el.id_order %}';"
+                    class="btn btn-outline-primary">Товары
+            </button>
+        <td>
+            <button onclick="document.location = '{% url 'update_status1' el.id_order %}';"
+                    class="btn btn-outline-primary">Готов
+            </button>
+        </td>
+        <td>
+            <button onclick="document.location = '{% url 'update_status3' el.id_order %}';"
+                    class="btn btn-danger">Отменить
+            </button>
+        </td>
+        </td>
+    </tr>
     {% endfor %}
 </table>
 <br><br>
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица готовых заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
@@ -53,29 +82,58 @@
         <th>Фамилия работника &nbsp;</th>
         <th>Имя клиента &nbsp;</th>
         <th>Фамилия клиента &nbsp;</th>
+        <th>Телефон клиента &nbsp;</th>
+        <th>Эл. почта клиента &nbsp;</th>
         <th>Дата принятия &nbsp;</th>
         <th>Статус &nbsp;</th>
         <th>Итоговая цена &nbsp;</th>
+        <th>Товары &nbsp;</th>
+        <th>Изсенить статус &nbsp;</th>
+        <th>Отмена &nbsp;</th>
     </tr>
     {% for el in order2 %}
-            <tr><td>{{ el.id_order }} &nbsp;
-            </td><td>{{ el.employee_name }} &nbsp;
-            </td><td>{{ el.employee_surname }} &nbsp;
-            </td><td>{{ el.customer_name }} &nbsp;
-            </td><td>{{ el.customer_surname }} &nbsp;
-            </td><td>{{ el.date_acceptance }} &nbsp;
-            </td><td>{{ el.id_status.meaning_status }} &nbsp;
-            </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'update_status2' el.id_order %}';">Выдан</button>
-            <button onclick="document.location = '{% url 'check' el.id_order %}';">Товары</button>
-            <button onclick="document.location = '{% url 'update_status3' el.id_order %}';">Отменен</button>
+    <tr>
+        <td>{{ el.id_order }} &nbsp;
+        </td>
+        <td>{{ el.employee_name }} &nbsp;
+        </td>
+        <td>{{ el.employee_surname }} &nbsp;
+        </td>
+        <td>{{ el.customer_name }} &nbsp;
+        </td>
+        <td>{{ el.customer_surname }} &nbsp;
+        </td>
+        <td>{{ el.phone_number }} &nbsp;
+        </td>
+        <td>{{ el.email }} &nbsp;
+        </td>
+        <td>{{ el.date_acceptance }} &nbsp;
+        </td>
+        <td>{{ el.id_status.meaning_status }} &nbsp;
+        </td>
+        <td>{{ el.end_price }}</td>
+        <td>
+            <button onclick="document.location = '{% url 'update_status2' el.id_order %}';"
+                    class="btn btn-outline-primary">Выдан
+            </button>
+        </td>
+        <td>
+            <button onclick="document.location = '{% url 'check' el.id_order %}';" class="btn btn-outline-primary">
+                Товары
+            </button>
+        </td>
+        <td>
+            <button onclick="document.location = '{% url 'update_status3' el.id_order %}';"
+                    class="btn btn-danger">Отменить
+            </button>
 
 
-            </td></tr>
+        </td>
+    </tr>
     {% endfor %}
 </table>
 <br><br>
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица выданных заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
@@ -87,23 +145,36 @@
         <th>Дата сдачи &nbsp;</th>
         <th>Статус &nbsp;</th>
         <th>Итоговая цена &nbsp;</th>
+        <th>Товары &nbsp;</th>
+
     </tr>
     {% for el in order3 %}
-            <tr><td>{{ el.id_order }} &nbsp;
-            </td><td>{{ el.employee_name }} &nbsp;
-            </td><td>{{ el.employee_surname }} &nbsp;
-            </td><td>{{ el.customer_name }} &nbsp;
-            </td><td>{{ el.customer_surname }} &nbsp;
-            </td><td>{{ el.date_acceptance }} &nbsp;
-            </td><td>{{ el.date_assignment }} &nbsp;
-            </td><td>{{ el.id_status.meaning_status }} &nbsp;
-            </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'check' el.id_order %}';">Товары</button>
-            </td></tr>
+    <tr>
+        <td>{{ el.id_order }} &nbsp;
+        </td>
+        <td>{{ el.employee_name }} &nbsp;
+        </td>
+        <td>{{ el.employee_surname }} &nbsp;
+        </td>
+        <td>{{ el.customer_name }} &nbsp;
+        </td>
+        <td>{{ el.customer_surname }} &nbsp;
+        </td>
+        <td>{{ el.date_acceptance }} &nbsp;
+        </td>
+        <td>{{ el.date_assignment }} &nbsp;
+        </td>
+        <td>{{ el.id_status.meaning_status }} &nbsp;
+        </td>
+        <td>{{ el.end_price }}</td>
+        <td>
+            <button onclick="document.location = '{% url 'check' el.id_order %}';" class="btn btn-outline-primary">Товары</button>
+        </td>
+    </tr>
     {% endfor %}
 </table>
 <br><br>
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица отмененных заказов</caption>
     <tr>
         <th>Id заказа &nbsp;</th>
@@ -116,16 +187,23 @@
         <th>Итоговая цена &nbsp;</th>
     </tr>
     {% for el in order4 %}
-            <tr><td>{{ el.id_order }} &nbsp;
-            </td><td>{{ el.employee_name }} &nbsp;
-            </td><td>{{ el.employee_surname }} &nbsp;
-            </td><td>{{ el.customer_name }} &nbsp;
-            </td><td>{{ el.customer_surname }} &nbsp;
-            </td><td>{{ el.date_acceptance }} &nbsp;
-            </td><td>{{ el.id_status.meaning_status }} &nbsp;
-            </td><td>{{ el.end_price }}</td><td>
-            <button onclick="document.location = '{% url 'delete_order' el.id_order %}';">Удалить</button>
-            </td></tr>
+    <tr>
+        <td>{{ el.id_order }} &nbsp;
+        </td>
+        <td>{{ el.employee_name }} &nbsp;
+        </td>
+        <td>{{ el.employee_surname }} &nbsp;
+        </td>
+        <td>{{ el.customer_name }} &nbsp;
+        </td>
+        <td>{{ el.customer_surname }} &nbsp;
+        </td>
+        <td>{{ el.date_acceptance }} &nbsp;
+        </td>
+        <td>{{ el.id_status.meaning_status }} &nbsp;
+        </td>
+        <td>{{ el.end_price }}</td>
+    </tr>
     {% endfor %}
 </table>
 {% endblock %}

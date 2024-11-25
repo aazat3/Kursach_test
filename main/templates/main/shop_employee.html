@@ -11,17 +11,21 @@
       {% csrf_token %}
 
       <br/>
-      <input type="text" placeholder="Имя..." name="name" id="name">
-      <input type="text" placeholder="Фамилия..." name="surname" id="surname">
-      <input type="text" placeholder="Отчество..." name="patronymic" id="patronymic">
-      <input type="text" placeholder="Пост..." name="post" id="post">
-      <input type="text" placeholder="Телефон..." name="phone_number" id="phone_number">
-      <input type="text" placeholder="Паспортные данные..." name="passport_details" id="passport_details">
-      <input type="text" placeholder="Адрес..." name="adress" id="adress">
-      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
+          <div class="input-group mb-3">
+
+      <input type="text" placeholder="Имя..." name="name" id="name" class="form-control">
+      <input type="text" placeholder="Фамилия..." name="surname" id="surname" class="form-control">
+      <input type="text" placeholder="Отчество..." name="patronymic" id="patronymic" class="form-control">
+      <input type="text" placeholder="Пост..." name="post" id="post" class="form-control">
+      <input type="text" placeholder="Телефон..." name="phone_number" id="phone_number" class="form-control">
+      <input type="text" placeholder="Паспортные данные..." name="passport_details" id="passport_details" class="form-control">
+      <input type="text" placeholder="Адрес..." name="adress" id="adress" class="form-control">
+      <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Добавить</button>
+                  </div>
+
   </form>
 <br>
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица сотрудников магазина</caption>
     <tr>
         <th>id &nbsp;</th>
@@ -36,7 +40,7 @@
     {% for el in shop_employee %}
             <tr><td>{{ el.id_employee }} &nbsp; </td><td>{{ el.name }} &nbsp; </td><td>{{ el.surname }} &nbsp; </td><td>{{ el.patronymic }} &nbsp; </td><td>{{ el.post }} &nbsp; </td><td>{{ el.phone_number }} &nbsp;
             </td><td>{{ el.passport_details }} &nbsp; </td><td>{{ el.adress }}</td><td>
-            <button onclick="document.location = '{% url 'delete_shop_employee' el.id_employee %}';">Удалить</button></td></tr>
+            <button onclick="document.location = '{% url 'delete_shop_employee' el.id_employee %}';" class="btn btn-danger">Удалить</button></td></tr>
     {% endfor %}
 </table>
 

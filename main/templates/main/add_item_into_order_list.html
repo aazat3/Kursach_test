@@ -1,0 +1,232 @@
+{% extends 'main/base.html'%}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h3>Поиск</h3>
+    <br>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Название</span>
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Название" title="Type in a name">
+        &nbsp;
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Производитель</span>
+        <input type="text" id="myInput2" onkeyup="myFunction2()" placeholder="Производитель" title="Type in a name">
+    </div>
+
+    <br><br>
+    <table id="myTable1" class="table table-bordered table-hover table-striped">
+        <caption>Таблица линз</caption>
+        <tr>
+            <th>id &nbsp;</th>
+            <th>Название &nbsp;</th>
+            <th>Диоптрии &nbsp;</th>
+            <th>Производитель &nbsp;</th>
+            <th>Цвет &nbsp;</th>
+            <th>Цена &nbsp;</th>
+            <th>Количество &nbsp;</th>
+            <th>Добавить &nbsp;</th>
+
+        </tr>
+        {% for el in lenses %}
+        <tr>
+            <td>{{ el.id_lenses }} &nbsp;
+            </td>
+            <td>{{ el.name_lenses }} &nbsp;
+            </td>
+            <td>{{ el.diopter }} &nbsp;
+            </td>
+            <td>{{ el.manufact }} &nbsp;
+            </td>
+            <td>{{ el.id_color.name_color}} &nbsp;
+            </td>
+            <td>{{ el.price }} &nbsp;
+            </td>
+            <td>{{ el.quantity }} &nbsp;</td>
+            <td>
+                <button onclick="document.location = '{% url 'order_list_by_id_order_2'  my_id  el.id_catalog.id_catalog  %}';"
+                        class="btn btn-primary">
+                    Добавить в заказ
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+    <table id="myTable2" class="table table-bordered table-hover table-striped">
+        <caption>Таблица оправ</caption>
+        <tr>
+            <th>id &nbsp;</th>
+            <th>Название &nbsp;</th>
+            <th>Производитель &nbsp;</th>
+            <th>Цвет &nbsp;</th>
+            <th>Цена &nbsp;</th>
+            <th>Количество &nbsp;</th>
+            <th>Добавить &nbsp;</th>
+        </tr>
+        {% for el in rim %}
+        <tr>
+            <td>{{ el.id_rim }} &nbsp;
+            </td>
+            <td>{{ el.name_rim }} &nbsp;
+            </td>
+            <td>{{ el.manufact }} &nbsp;
+            </td>
+            <td>{{ el.id_color.name_color}} &nbsp;
+            </td>
+            <td>{{ el.price }}&nbsp;
+            </td>
+            <td>{{ el.quantity }} &nbsp;</td>
+            <td>
+                <button onclick="document.location = '{% url 'order_list_by_id_order_2'  my_id  el.id_catalog.id_catalog  %}';"
+                        class="btn btn-primary">
+                    Добавить в заказ
+                </button>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+    <table id="myTable3" class="table table-bordered table-hover table-striped">
+        <caption>Таблица аксессуаров</caption>
+        <tr>
+            <th>id &nbsp;</th>
+            <th>Название &nbsp;</th>
+            <th>Тип &nbsp;</th>
+            <th>Производитель &nbsp;</th>
+            <th>Цена &nbsp;</th>
+            <th>Количество &nbsp;</th>
+            <th>Добавить &nbsp;</th>
+
+        </tr>
+        {% for el in accessories %}
+        <tr>
+            <td>{{ el.id_accessories }} &nbsp;
+            </td>
+            <td>{{ el.name_accessories }} &nbsp;
+            </td>
+            <td>{{ el.type }} &nbsp;
+            </td>
+            <td>{{ el.manufact }} &nbsp;
+            </td>
+            <td>{{ el.price }}&nbsp;
+            </td>
+            <td>{{ el.quantity }} &nbsp;</td>
+            <td>
+                <button onclick="document.location = '{% url 'order_list_by_id_order_2'  my_id  el.id_catalog.id_catalog  %}';"
+                        class="btn btn-primary">
+                    Добавить в заказ
+                </button>
+
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+</div>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  table = document.getElementById("myTable2");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  table = document.getElementById("myTable3");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+
+
+
+</script>
+<script>
+function myFunction2() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput2");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable1");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  table = document.getElementById("myTable2");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  table = document.getElementById("myTable3");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+
+
+
+</script>
+{% endblock %}

@@ -5,23 +5,40 @@
 {% endblock %}
 
 {% block content %}
-        <h1>Тип товара</h1>
+<h1>Товары</h1>
 
-<button onclick="document.location = '{% url 'add_rim' %}';">Оправы</button>
-        <button onclick="document.location = '{% url 'add_lenses' %}';">Линзы</button>
-        <button onclick="document.location = '{% url 'add_accessories' %}';">Аксессуары</button>
-  <form method="post">
+<button onclick="document.location = '{% url 'add_rim' %}';" class="btn btn-outline-primary">Оправы</button>
+<button onclick="document.location = '{% url 'add_lenses' %}';" class="btn btn-outline-primary">Линзы</button>
+<button onclick="document.location = '{% url 'add_accessories' %}';" class="btn btn-outline-primary">Аксессуары</button>
+<form method="post">
     {% csrf_token %}
     <br/>
-    <input type="text" placeholder="Название..." name="name" id="name">
-    <input type="text" placeholder="Производитель..." name="manufact" id="manufact">
-    <input type="text" placeholder="Цвет..." name="color_name" id="color_name">
-    <input type="number" placeholder="Цена..." name="price" id="price">
-    <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Добавить новый</span>
+
+        <input type="text" placeholder="Название..." name="name" id="name" class="form-control">
+        <input type="text" placeholder="Производитель..." name="manufact" id="manufact" class="form-control">
+        <input type="text" placeholder="Цвет..." name="color_name" id="color_name" class="form-control">
+        <input type="number" placeholder="Цена..." name="price" id="price" class="form-control">
+        <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Добавить</button>
+    </div>
+
+</form>
 
 <br>
-<table border="2">
+<h3>Поиск</h3>
+<div class="input-group mb-3">
+    <span class="input-group-text">Название</span>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Поиск.." title="Type in a name">
+    &nbsp;
+</div>
+<div class="input-group mb-3">
+    <span class="input-group-text">Производитель</span>
+    <input type="text" id="myInput2" onkeyup="myFunction2()" placeholder="Поиск.." title="Type in a name">
+</div>
+
+<br><br>
+<table id="myTable" class="table table-bordered table-hover table-striped">
     <caption>Таблица оправ</caption>
     <tr>
         <th>id &nbsp;</th>
@@ -30,17 +47,73 @@
         <th>Цвет &nbsp;</th>
         <th>Цена &nbsp;</th>
         <th>Количество &nbsp;</th>
+        <th> &nbsp;</th>
+        <th>Удалить &nbsp;</th>
     </tr>
     {% for el in item %}
-            <tr><td>{{ el.id_rim }} &nbsp;
-            </td><td>{{ el.name_rim }} &nbsp;
-            </td><td>{{ el.manufact }} &nbsp;
-            </td><td>{{ el.id_color.name_color}} &nbsp;
-            </td><td>{{ el.price }}&nbsp;
-            </td><td>{{ el.quantity }} &nbsp; </td><td>
-            <button onclick="document.location = '{% url 'update_quantity_rim' el.id_rim %}';">Добавить количество</button></td><td>
-            <button onclick="document.location = '{% url 'delete_rim' el.id_rim %}';">Удалить</button>
-            </td></tr>
+    <tr>
+        <td>{{ el.id_rim }} &nbsp;
+        </td>
+        <td>{{ el.name_rim }} &nbsp;
+        </td>
+        <td>{{ el.manufact }} &nbsp;
+        </td>
+        <td>{{ el.id_color.name_color}} &nbsp;
+        </td>
+        <td>{{ el.price }}&nbsp;
+        </td>
+        <td>{{ el.quantity }} &nbsp;</td>
+        <td>
+            <button onclick="document.location = '{% url 'update_quantity_rim' el.id_rim %}';" class="btn btn-outline-primary">Добавить количество
+            </button>
+        </td>
+        <td>
+            <button onclick="document.location = '{% url 'delete_rim' el.id_rim %}';" class="btn btn-danger">Удалить</button>
+        </td>
+    </tr>
     {% endfor %}
 </table>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+ }
+
+
+</script>
+<script>
+function myFunction2() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput2");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+ }
+
+
+</script>
+
 {% endblock %}

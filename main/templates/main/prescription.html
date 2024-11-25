@@ -6,22 +6,29 @@
 
 {% block content %}
 
-  <form method="post">
-      <h1>Добавить рецепт</h1>
-      {% csrf_token %}
-      <br/>
-      <input type="text" placeholder="Имя врача..." name="employee_name" id="employee_name">
-      <input type="text" placeholder="Фамилия врача..." name="employee_surname" id="employee_surname">
-      <input type="text" placeholder="Имя клиента..." name="customer_name" id="customer_name">
-      <input type="text" placeholder="Фамилия клиента..." name="customer_surname" id="customer_surname">
-      <input type="number" step="any" placeholder="Левый глаз..." name="right_diopter" id="right_diopter">
-      <input type="number" step="any" placeholder="Правый глаз..." name="left_diopter" id="left_diopter">
-      <input type="number" placeholder="Дистанция..." name="distance" id="distance">
-      <input type="date" placeholder="Дата..." name="date" id="date">
-      <button type="submit" name="Add_item" value="Add_item">Добавить</button>
-  </form>
+<form method="post">
+    <h1>Рецепты</h1>
+    {% csrf_token %}
+    <br/>
+    <div class="input-group mb-3">
+        <input type="text" placeholder="Имя врача..." name="employee_name" id="employee_name" class="form-control">
+        <input type="text" placeholder="Фамилия врача..." name="employee_surname" id="employee_surname"
+               class="form-control">
+        <input type="text" placeholder="Имя клиента..." name="customer_name" id="customer_name" class="form-control">
+        <input type="text" placeholder="Фамилия клиента..." name="customer_surname" id="customer_surname"
+               class="form-control">
+        <input type="number" step="any" placeholder="Левый глаз..." name="right_diopter" id="right_diopter"
+               class="form-control">
+        <input type="number" step="any" placeholder="Правый глаз..." name="left_diopter" id="left_diopter"
+               class="form-control">
+        <input type="number" placeholder="Дистанция..." name="distance" id="distance" class="form-control">
+        <input type="date" placeholder="Дата..." name="date" id="date" class="form-control">
+        <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Добавить</button>
+    </div>
+
+</form>
 <br>
-<table border="2">
+<table class="table table-bordered table-hover table-striped">
     <caption>Таблица рецептов</caption>
     <tr>
 
@@ -34,20 +41,31 @@
         <th>Правый глаз &nbsp;</th>
         <th>Дистанция &nbsp;</th>
         <th>Дата &nbsp;</th>
-        <th>  &nbsp;</th>
+        <th> &nbsp;</th>
     </tr>
     {% for el in prescription %}
-    <tr><td>{{ el.id_prescribtion }} &nbsp;
-    </td><td>{{ el.employee_name }} &nbsp;
-    </td><td>{{ el.employee_surname }} &nbsp;
-    </td><td>{{ el.customer_name }} &nbsp;
-    </td><td>{{ el.customer_surname }} &nbsp;
-    </td><td>{{ el.right_diopter }} &nbsp;
-    </td><td>{{ el.left_diopter }} &nbsp;
-    </td><td>{{ el.distance }} &nbsp;
-    </td><td>{{ el.date }} &nbsp;</td><td>
-    <button onclick="document.location = '{% url 'delete_order' el.id_prescribtion %}';">Удалить</button>
-    </tr></td>
+    <tr>
+        <td>{{ el.id_prescribtion }} &nbsp;
+        </td>
+        <td>{{ el.employee_name }} &nbsp;
+        </td>
+        <td>{{ el.employee_surname }} &nbsp;
+        </td>
+        <td>{{ el.customer_name }} &nbsp;
+        </td>
+        <td>{{ el.customer_surname }} &nbsp;
+        </td>
+        <td>{{ el.right_diopter }} &nbsp;
+        </td>
+        <td>{{ el.left_diopter }} &nbsp;
+        </td>
+        <td>{{ el.distance }} &nbsp;
+        </td>
+        <td>{{ el.date }} &nbsp;</td>
+        <td>
+            <button onclick="document.location = '{% url 'delete_prescription' el.id_prescribtion %}';" class="btn btn-danger">Удалить</button>
+    </tr>
+    </td>
     {% endfor %}
 </table>
 

@@ -9,9 +9,9 @@
 {% block content %}
 
     <form method="post">
-    {% csrf_token %}
-    {{ form }} &nbsp;
-    <button type="submit" name="Add_item" value="Add_item">Войти</button>
+        {% csrf_token %}
+        {{ form }} &nbsp;
+        <button type="submit" name="Add_item" value="Add_item" class="btn btn-primary">Войти</button>
     </form>
 
 {% endblock %}

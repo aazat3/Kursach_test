@@ -21,6 +21,7 @@ class Accessories(models.Model):
 
 class AccessoriesWithQuantity(models.Model):
     id_accessories = models.AutoField(primary_key=True)
+    id_catalog = models.ForeignKey("Catalog", models.DO_NOTHING, db_column='id_catalog', blank=True, null=True)
     manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
     type = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
     price = models.FloatField()
@@ -30,6 +31,19 @@ class AccessoriesWithQuantity(models.Model):
     class Meta:
         managed = False
         db_table = 'accessories_quantity'
+
+
+class Catalog(models.Model):
+    id_catalog = models.AutoField(primary_key=True)
+    id_lenses = models.OneToOneField("Lenses", models.DO_NOTHING, db_column='id_lenses', blank=True, null=True)
+    id_rim = models.OneToOneField("Rim", models.DO_NOTHING, db_column='id_rim', blank=True, null=True)
+    id_accessories = models.OneToOneField("Accessories", models.DO_NOTHING, db_column='id_accessories', blank=True, null=True)
+    quantity = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'catalog'
+
 
 
 class Color(models.Model):
@@ -89,8 +103,11 @@ class Lenses(models.Model):
         managed = False
         db_table = 'lenses'
 
+
+
 class LensesWithQuantity(models.Model):
     id_lenses = models.AutoField(primary_key=True)
+    id_catalog = models.ForeignKey(Catalog, models.DO_NOTHING, db_column='id_catalog', blank=True, null=True)
     diopter = models.DecimalField(max_digits=4, decimal_places=2)
     id_color = models.ForeignKey(Color, models.DO_NOTHING, db_column='id_color', blank=True, null=True)
     manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
@@ -148,6 +165,7 @@ class Rim(models.Model):
 
 class RimWithQuantity(models.Model):
     id_rim = models.AutoField(primary_key=True)
+    id_catalog = models.ForeignKey(Catalog, models.DO_NOTHING, db_column='id_catalog', blank=True, null=True)
     id_color = models.ForeignKey(Color, models.DO_NOTHING, db_column='id_color', blank=True, null=True)
     manufact = models.CharField(max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
     price = models.FloatField()
@@ -191,22 +209,10 @@ class Status(models.Model):
         db_table = 'status'
 
 
-class Catalog(models.Model):
-    id_catalog = models.AutoField(primary_key=True)
-    id_lenses = models.OneToOneField(Lenses, models.DO_NOTHING, db_column='id_lenses', blank=True, null=True)
-    id_rim = models.OneToOneField(Rim, models.DO_NOTHING, db_column='id_rim', blank=True, null=True)
-    id_accessories = models.OneToOneField(Accessories, models.DO_NOTHING, db_column='id_accessories', blank=True, null=True)
-    quantity = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'catalog'
-
-
 class Orderr(models.Model):
     id_order = models.AutoField(primary_key=True)
     id_employee = models.ForeignKey(ShopEmployee, models.DO_NOTHING, db_column='id_employee', blank=True, null=True)
-    id_prescription = models.ForeignKey(Prescription, models.DO_NOTHING, db_column='id_prescription', blank=True, null=True)
+    id_customer = models.ForeignKey(Customer, models.DO_NOTHING, db_column='id_customer', blank=True, null=True)
     date_acceptance = models.DateTimeField()
     date_assignment = models.DateTimeField(blank=True, null=True)
     id_status = models.ForeignKey(Status, models.DO_NOTHING, db_column='id_status', blank=True, null=True)
@@ -223,6 +229,8 @@ class OrderrWithoutId(models.Model):
     employee_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     customer_name = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
     customer_surname = models.CharField(max_length=20, db_collation='Cyrillic_General_CI_AS')
+    phone_number = models.CharField(unique=True, max_length=12, db_collation='Cyrillic_General_CI_AS')
+    email = models.CharField(unique=True, max_length=30, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
     date_acceptance = models.DateTimeField()
     date_assignment = models.DateTimeField(blank=True, null=True)
     id_status = models.ForeignKey(Status, models.DO_NOTHING, db_column='id_status', blank=True, null=True)
